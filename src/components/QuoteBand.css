@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Quote band — orange, thin rings, statement + round photo
+   ========================================================================== */
+
+.qb {
+  position: relative;
+  padding-block: clamp(4rem, 3rem + 5vw, 7.5rem);
+  background: var(--orbit-blue-600);
+  color: var(--ink-900);
+  overflow: hidden;
+}
+
+/* Thin concentric rings centred on the photo. */
+.qb__rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.qb__rings span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(clamp(260px, 32vw, 440px) + 40px + var(--n) * clamp(80px, 8vw, 120px));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(19, 42, 30, calc(0.42 - var(--n) * 0.05));
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: transform 1.4s var(--ease-out), opacity 1s ease;
+  transition-delay: calc(var(--n) * 0.08s);
+}
+
+.qb.is-in .qb__rings span {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.qb__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+/* --- Statement --------------------------------------------------------- */
+.qb__mark {
+  display: block;
+  height: 0.55em;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(4rem, 3rem + 3vw, 6rem);
+  line-height: 1;
+  color: var(--ink-900);
+}
+
+.qb__text blockquote p {
+  margin-top: clamp(1rem, 3vw, 2rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 0.9rem + 2.6vw, 3.1rem);
+  font-weight: var(--fw-regular);
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+}
+
+.qb__text b {
+  font-weight: 600;
+}
+
+.qb__text figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(19, 42, 30, 0.35);
+  font-size: var(--fs-sm);
+}
+
+.qb__text figcaption strong {
+  font-weight: var(--fw-medium);
+}
+
+.qb__text figcaption span {
+  font-size: var(--fs-xs);
+  color: rgba(19, 42, 30, 0.7);
+}
+
+/* --- Photo ------------------------------------------------------ */
+.qb__visual {
+  position: relative;
+  justify-self: center;
+  width: clamp(260px, 32vw, 440px);
+}
+
+.qb__photo {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(122, 46, 7, 0.35);
+  transform: scale(0.85);
+  opacity: 0;
+  transition: transform 1.1s var(--ease-out) 0.2s, opacity 0.8s ease 0.2s;
+}
+
+.qb.is-in .qb__photo {
+  transform: none;
+  opacity: 1;
+}
+
+.qb__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 50%;
+}
+
+
+/* --- Responsive -------------------------------------------------------- */
+@media (max-width: 860px) {
+  .qb__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .qb__visual {
+    margin-top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qb__rings span,
+  .qb__photo {
+    transition: none;
+    opacity: 1;
+  }
+
+  .qb__rings span {
+    transform: translate(-50%, -50%);
+  }
+
+  .qb__photo {
+    transform: none;
+  }
+}

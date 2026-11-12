@@ -1,0 +1,272 @@
+/* ==========================================================================
+   Spotlight — alternating story rows for automations and Bishnoi One AI
+   ========================================================================== */
+
+.spot-row {
+  --accent: #f36b21;
+  --accent-2: #f9a03f;
+  --accent-soft: #fde8da;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+}
+
+.spot-row + .spot-row {
+  margin-top: clamp(3.5rem, 2rem + 5vw, 7rem);
+}
+
+.spot-row[data-accent='green'] {
+  --accent: #173f2a;
+  --accent-2: #2e8a57;
+  --accent-soft: #e0eee5;
+}
+
+.spot-row--flip .spot-row__copy {
+  order: 2;
+}
+
+.spot-row__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.spot-row__copy .eyebrow {
+  color: var(--accent);
+}
+
+.spot-row__copy h2 {
+  max-width: 16ch;
+}
+
+.spot-row__copy ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.spot-row__copy li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-700);
+}
+
+.spot-row__copy li svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--accent);
+}
+
+.spot-row__copy .link-arrow {
+  color: var(--accent);
+}
+
+/* --- Shared art canvas -------------------------------------------------- */
+.spot-row__art {
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 1rem + 2vw, 3rem);
+  border-radius: var(--r-2xl);
+  background: var(--surface-muted);
+  border: 1px solid var(--ink-100);
+  min-height: clamp(280px, 26vw, 380px);
+}
+
+.spot-art {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  width: 100%;
+  max-width: 420px;
+}
+
+/* --- Automation art ----------------------------------------------------- */
+.spot-art__rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--r-lg);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.92rem;
+}
+
+.spot-art__when,
+.spot-art__then {
+  font-style: normal;
+  color: var(--ink-400);
+  text-transform: lowercase;
+}
+
+.spot-art__token {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.spot-art__token--alt {
+  background: var(--orbit-green-100);
+  color: var(--orbit-green-700);
+}
+
+.spot-art__flow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 0.5rem;
+}
+
+.spot-art__flow i {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+.spot-art__flow b {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--r-md);
+  background: #fff;
+  border: 2px solid var(--accent-soft);
+  color: var(--accent);
+  animation: orbit-pop 520ms var(--ease-spring) both;
+  animation-delay: calc(var(--i) * 140ms);
+}
+
+.spot-art__flow b:nth-child(2) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.spot-art__result {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--r-pill);
+  background: var(--orbit-green-100);
+  color: var(--orbit-green-700);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+}
+
+/* --- AI art ------------------------------------------------------------- */
+.spot-art__prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.88rem;
+  color: var(--ink-700);
+}
+
+.spot-art__prompt svg {
+  color: var(--accent);
+  flex: none;
+}
+
+.spot-art__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem;
+  border-radius: var(--r-lg);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+}
+
+.spot-art__lines b {
+  height: 12px;
+  width: var(--w);
+  border-radius: var(--r-pill);
+  background: linear-gradient(90deg, var(--accent-2), var(--accent-soft));
+  transform-origin: left;
+  animation: orbit-type 2.6s var(--ease-out) infinite;
+  animation-delay: calc(var(--i) * 260ms);
+}
+
+@keyframes orbit-type {
+  0% {
+    transform: scaleX(0);
+    opacity: 0.4;
+  }
+  35%,
+  80% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
+}
+
+.spot-art__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.spot-art__chips em {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  font-style: normal;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+  color: var(--ink-700);
+  animation: orbit-pop 460ms var(--ease-spring) both;
+  animation-delay: calc(var(--i) * 120ms + 400ms);
+}
+
+.spot-art__chips em:first-child {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .spot-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .spot-row--flip .spot-row__copy {
+    order: 0;
+  }
+
+  .spot-row__art {
+    order: -1;
+  }
+}

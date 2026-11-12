@@ -1,0 +1,270 @@
+/* ==========================================================================
+   People pills — headline over a row of tall rounded pills.
+   ========================================================================== */
+
+.pp {
+  --pill-w: clamp(118px, 12.2vw, 172px);
+  --pill-max: clamp(360px, 44vw, 600px);
+  padding-top: clamp(1rem, 2vw, 2rem);
+  padding-bottom: clamp(3.5rem, 6vw, 6rem);
+  background: #fff;
+  overflow: hidden;
+}
+
+.pp__title {
+  text-align: center;
+  font-size: clamp(1.7rem, 0.9rem + 2.7vw, 3rem);
+  font-weight: var(--fw-medium);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--ink-900);
+}
+
+.pp__title span {
+  display: block;
+  color: var(--ink-400);
+  font-weight: var(--fw-regular);
+}
+
+/* --- Row ---------------------------------------------------------------- */
+.pp__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(8px, 1.2vw, 16px);
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+  padding: 0 var(--gutter);
+  list-style: none;
+}
+
+.pp__pill {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--pill-w);
+  height: calc(var(--pill-max) * var(--h));
+  padding: 2rem 1rem 1.6rem;
+  border-radius: 999px;
+  overflow: hidden;
+  text-align: center;
+  /* Rise into place, one after another. */
+  transform: translateY(70%);
+  opacity: 0;
+  transition: transform 1s var(--ease-out), opacity 0.6s ease;
+  transition-delay: calc(var(--i) * 0.09s);
+}
+
+.pp.is-in .pp__pill {
+  transform: none;
+  opacity: 1;
+}
+
+.pp__pill p {
+  margin-top: 2.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.8rem + 0.6vw, 1.3rem);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+/* Colour blocks */
+.pp__pill--orange {
+  justify-content: space-between;
+  padding-top: 3.2rem;
+  padding-bottom: 4rem;
+  background: var(--orbit-blue-600);
+  color: var(--ink-900);
+}
+
+.pp__pill--dark {
+  background: #121212;
+  color: #fff;
+}
+
+.pp__pill--blue {
+  justify-content: space-between;
+  padding-bottom: 4rem;
+  background: #c9cfff;
+  color: var(--ink-900);
+}
+
+.pp__pill--white {
+  justify-content: space-between;
+  padding-bottom: 4rem;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(19, 42, 30, 0.06);
+  color: var(--ink-900);
+}
+
+.pp__pill--white p {
+  font-size: clamp(0.92rem, 0.78rem + 0.4vw, 1.08rem);
+}
+
+/* Tallest pill: concentric rings breathing out from a warm core */
+.pp__pill--rings {
+  justify-content: flex-end;
+  padding-bottom: 4rem;
+  background: var(--orbit-blue-600);
+}
+
+.pp__rings {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 480%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle, #ffd900 0 9%, rgba(255, 217, 0, 0) 16%),
+    repeating-radial-gradient(circle, #f36b21 0 14px, #f9a03f 22px, #f36b21 30px);
+  animation: pp-breathe 6s ease-in-out infinite;
+}
+
+@keyframes pp-breathe {
+  50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.pp__brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Logo tile */
+.pp__mark {
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+}
+
+/* Logo shown in solid white on the orange pills. */
+.pp__mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.pp__mark--lg {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+}
+
+.pp__mark--sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.pp__foot {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Photo pills: office background, person cut-out in front */
+.pp__pill--photo {
+  padding: 0;
+  background: #ddd;
+}
+
+.pp__bg,
+.pp__person {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pp__bg {
+  filter: blur(1.5px) saturate(0.9);
+  transform: scale(1.06);
+}
+
+/* Person fills the lower part of the pill, head near the top third. */
+.pp__person {
+  top: 16%;
+  height: 84%;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+
+.pp__person--sumit {
+  top: 12%;
+  height: 88%;
+  object-position: 50% 4%;
+}
+
+/* Chip + button */
+.pp__chip {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(19, 42, 30, 0.12);
+  animation: pp-nudge 2.4s ease-in-out infinite;
+}
+
+@keyframes pp-nudge {
+  50% { transform: translateY(-4px); }
+}
+
+.pp__btn {
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--orbit-blue-600);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.pp__btn:hover {
+  background: var(--orbit-blue-700);
+}
+
+/* --- Small screens: the row scrolls sideways --------------------------- */
+@media (max-width: 760px) {
+  .pp {
+    --pill-w: 128px;
+    --pill-max: 400px;
+  }
+
+  .pp__row {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .pp__row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pp__pill {
+    scroll-snap-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp__pill {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .pp__rings,
+  .pp__chip {
+    animation: none;
+  }
+}

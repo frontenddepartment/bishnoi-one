@@ -1,0 +1,288 @@
+/* ==========================================================================
+   Hero — big headline + call to action, then a particle-helix band with a
+   floating "six systems" card, then the department strip.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  padding-top: calc(var(--nav-h) + clamp(0.75rem, 3vh, 2.25rem));
+  padding-bottom: clamp(1.5rem, 4vh, 3rem);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+/* --- Headline row ------------------------------------------------------- */
+.hero__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  animation: orbit-rise 0.8s var(--ease-out) both;
+}
+
+.hero__title {
+  font-size: clamp(2.2rem, min(4.6vw, 8.4vh), 4.4rem);
+  font-weight: var(--fw-heading);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--ink-900);
+}
+
+.hero__accent {
+  color: var(--orbit-blue-600);
+}
+
+.hero__line3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding-left: 0.6em;
+}
+
+.hero__stack {
+  display: inline-flex;
+  padding-left: 0.2em;
+}
+
+.hero__face {
+  position: relative;
+  width: 0.92em;
+  height: 0.92em;
+  margin-left: -0.2em;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid #fff;
+  overflow: hidden;
+  animation: orbit-pop 0.5s var(--ease-spring) both;
+  animation-delay: calc(0.35s + var(--i) * 80ms);
+}
+
+/* The photos are full-body cut-outs; enlarge and crop to head and shoulders. */
+.hero__face img {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 240%;
+  max-width: none;
+  height: auto;
+}
+
+.hero__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(0.6rem, 2vh, 1.1rem);
+  padding-bottom: 0.4rem;
+}
+
+.hero__lead {
+  max-width: 36ch;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--ink-500);
+}
+
+/* Pill button with a round arrow badge */
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.4rem 0.4rem 0.4rem 1.25rem;
+  border-radius: var(--r-pill);
+  background: var(--orbit-blue-600);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.9375rem;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.hero__cta:hover {
+  background: var(--orbit-blue-700);
+}
+
+.hero__cta-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--orbit-blue-600);
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.hero__cta:hover .hero__cta-icon {
+  transform: rotate(45deg);
+}
+
+.hero__fineprint {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+/* --- Visual band -------------------------------------------------------- */
+.hero__stage {
+  position: relative;
+  margin-top: clamp(1rem, 3.5vh, 2rem);
+  animation: orbit-rise 0.9s var(--ease-out) 0.15s both;
+}
+
+.helix {
+  position: relative;
+  height: clamp(170px, 34vh, 340px);
+  border-radius: var(--r-2xl);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 40%, #ffffff 0%, transparent 60%),
+    linear-gradient(180deg, #f3f4f3, #e9ebea);
+}
+
+.helix svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Systems flow band */
+.flow__line {
+  fill: none;
+  stroke: #f5843f;
+  stroke-width: 1.6;
+  stroke-dasharray: 2 5;
+  opacity: 0.55;
+}
+
+.flow__line--soft {
+  stroke: #f9a03f;
+  opacity: 0.3;
+}
+
+.flow__node {
+  animation: orbit-pop 0.6s var(--ease-spring) both;
+  animation-delay: calc(0.45s + var(--i) * 90ms);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.flow__pulse {
+  fill: none;
+  stroke: #f36b21;
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: flow-pulse 3.6s ease-out infinite;
+  animation-delay: calc(var(--i) * 0.6s);
+}
+
+@keyframes flow-pulse {
+  0% { opacity: 0.55; transform: scale(0.75); }
+  70%, 100% { opacity: 0; transform: scale(1.35); }
+}
+
+.flow__chip {
+  opacity: 0;
+  animation: flow-chip 7.2s ease-in-out infinite;
+  animation-delay: calc(1.2s + var(--i) * 1.8s);
+}
+
+@keyframes flow-chip {
+  0%, 4% { opacity: 0; }
+  10%, 40% { opacity: 1; }
+  48%, 100% { opacity: 0; }
+}
+
+.flow__chip-text {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--ink-900);
+}
+
+/* --- Department strip --------------------------------------------------- */
+.hero__trust {
+  margin-top: clamp(1.75rem, 5vh, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  text-align: center;
+}
+
+.hero__trust-label {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-400);
+}
+
+.hero__trust-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.4rem, 0.5rem + 3vw, 3.5rem);
+  list-style: none;
+  padding: 0;
+}
+
+.hero__trust-logos li {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem);
+  letter-spacing: -0.03em;
+  color: var(--dept-color, var(--ink-700));
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.hero__trust-logos li:hover {
+  transform: translateY(-2px);
+}
+
+.hero__trust-logos li:nth-child(8n + 1) { --dept-color: var(--orbit-blue-600); }
+.hero__trust-logos li:nth-child(8n + 2) { --dept-color: var(--accent-blue); }
+.hero__trust-logos li:nth-child(8n + 3) { --dept-color: var(--orbit-green-700); }
+.hero__trust-logos li:nth-child(8n + 4) { --dept-color: var(--accent-red-ink); }
+.hero__trust-logos li:nth-child(8n + 5) { --dept-color: var(--accent-yellow-ink); }
+.hero__trust-logos li:nth-child(8n + 6) { --dept-color: var(--accent-green-ink); }
+.hero__trust-logos li:nth-child(8n + 7) { --dept-color: var(--orbit-blue-700); }
+.hero__trust-logos li:nth-child(8n + 8) { --dept-color: var(--accent-blue-ink); }
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .hero__top {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .hero__title {
+    font-size: clamp(2.2rem, 1.2rem + 5vw, 3.4rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .hero__line3 {
+    padding-left: 0;
+  }
+
+  .helix {
+    height: 150px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow__pulse,
+  .flow__chip,
+  .flow__node,
+  .hero__top,
+  .hero__stage,
+  .hero__face {
+    animation: none;
+  }
+
+  .flow__chip {
+    opacity: 1;
+  }
+}

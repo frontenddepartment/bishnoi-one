@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Words split — photo left, three big stacked words on dark panel right
+   ========================================================================== */
+
+.ws {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: clamp(320px, 38vw, 500px);
+  background: #141414;
+  overflow: hidden;
+}
+
+.ws__photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.ws__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 40%;
+  transform: scale(1.08);
+  transition: transform 1.8s var(--ease-out);
+}
+
+.ws.is-in .ws__photo img {
+  transform: none;
+}
+
+.ws__panel {
+  display: flex;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 6vw, 6rem);
+}
+
+.ws__words {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+}
+
+.ws__word {
+  position: relative;
+  width: max-content;
+  overflow: visible;
+}
+
+.ws__text {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 1rem + 5.6vw, 6.4rem);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: #f4efe9;
+  /* Each word slides up into place in turn. */
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(30%);
+  transition: clip-path 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--i) * 0.15s);
+}
+
+.ws.is-in .ws__text {
+  clip-path: inset(-10% -5% -20% -5%);
+  transform: none;
+}
+
+.ws__word.is-accent .ws__text {
+  color: var(--orbit-blue-600);
+}
+
+@media (max-width: 760px) {
+  .ws {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ws__photo {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws__photo img,
+  .ws__text {
+    transition: none;
+    animation: none;
+    transform: none;
+    clip-path: none;
+    opacity: 1;
+  }
+}

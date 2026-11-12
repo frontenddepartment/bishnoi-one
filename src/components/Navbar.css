@@ -1,0 +1,493 @@
+/* ==========================================================================
+   Navbar — sticky header, hover mega menus, mobile drawer
+   ========================================================================== */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out), background-color var(--dur-base) var(--ease-out);
+}
+
+.nav.is-scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom-color: var(--ink-100);
+}
+
+.nav__inner {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.nav__brand {
+  flex: none;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: var(--sp-4);
+}
+
+.nav__item {
+  position: relative;
+}
+
+.nav__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--ink-100);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.9375rem;
+  color: var(--ink-700);
+  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.nav__trigger svg {
+  transition: transform var(--dur-base) var(--ease-out);
+  opacity: 0.6;
+}
+
+.nav__trigger:hover {
+  color: var(--orbit-blue-600);
+  box-shadow: 0 0 0 1px var(--orbit-blue-100);
+}
+
+/* Once the page is scrolled, the links drop their pill outlines. */
+.nav.is-scrolled .nav__trigger:not(.is-open) {
+  background: transparent;
+  box-shadow: none;
+}
+
+.nav.is-scrolled .nav__trigger:not(.is-open):hover {
+  background: var(--orbit-blue-50);
+}
+
+.nav__trigger.is-open {
+  color: #fff;
+  background: var(--orbit-blue-600);
+  box-shadow: none;
+}
+
+.nav__trigger.is-open svg {
+  opacity: 1;
+}
+
+.nav__trigger.is-open svg {
+  transform: rotate(180deg);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-left: auto;
+}
+
+.nav__login {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.9375rem;
+  color: var(--ink-700);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.nav__login:hover {
+  color: var(--orbit-blue-600);
+}
+
+.nav__burger {
+  display: none;
+  padding: 0.4rem;
+  border-radius: var(--r-sm);
+  color: var(--ink-900);
+}
+
+/* --- Mega panel --------------------------------------------------------- */
+.nav__panel {
+  position: absolute;
+  inset: 100% 0 auto 0;
+  padding: 0 var(--gutter) var(--sp-5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out),
+    visibility var(--dur-base);
+  pointer-events: none;
+}
+
+.nav__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.nav__panel-inner {
+  padding: 0;
+}
+
+.mega {
+  display: grid;
+  gap: var(--sp-5);
+  padding: var(--sp-6);
+  border-radius: var(--r-xl);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  box-shadow: var(--sh-lg);
+}
+
+.mega--products {
+  /* Eight systems in a wide four-up grid (two short rows) beside the
+     pricing aside, so the panel stays low on short laptop screens. */
+  grid-template-columns: minmax(0, 1fr) 240px;
+  max-width: 1320px;
+  padding: var(--sp-5) var(--sp-6);
+}
+
+.mega--products .mega__grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-1);
+}
+
+.mega--products .mega__label {
+  margin-bottom: var(--sp-2);
+}
+
+.mega--products .mega-card {
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+}
+
+.mega--products .mega-card__icon {
+  width: 38px;
+  height: 38px;
+}
+
+.mega--products .mega-card__blurb {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.mega__label {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: #000;
+  margin-bottom: var(--sp-4);
+}
+
+.mega__grid {
+  display: grid;
+  /* Three products stack rather than leaving an orphan in a two-up grid. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-2);
+}
+
+.mega__grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.mega-card {
+  display: flex;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  transition: background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.mega-card:hover {
+  background: var(--surface-muted);
+}
+
+.mega-card__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  color: #fff;
+  background: var(--grad-brand);
+}
+
+.mega-card[data-accent='green'] .mega-card__icon {
+  background: linear-gradient(135deg, #2e8a57, #173f2a);
+}
+
+.mega-card[data-accent='violet'] .mega-card__icon {
+  background: linear-gradient(135deg, #8c99ff, #5a6dff);
+}
+
+.mega-card[data-accent='coral'] .mega-card__icon {
+  background: linear-gradient(135deg, #fd4040, #e02f2f);
+}
+
+/* Platform menu: each feature gets its own two-colour gradient, white icon. */
+.mega-card__icon--grad {
+  background: linear-gradient(135deg, var(--g1), var(--g2));
+  color: #fff;
+  box-shadow: none;
+}
+
+.mega-card__icon--soft {
+  background: var(--orbit-blue-50);
+  color: var(--orbit-blue-600);
+  box-shadow: none;
+}
+
+.mega-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mega-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 1rem;
+  color: var(--ink-900);
+}
+
+.mega-card__title svg {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all var(--dur-base) var(--ease-spring);
+  color: var(--orbit-blue-600);
+}
+
+.mega-card:hover .mega-card__title svg {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mega-card__blurb {
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  line-height: 1.45;
+}
+
+.mega-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.mega-link:hover {
+  background: var(--surface-muted);
+}
+
+.mega-link:hover .mega-card__title {
+  color: var(--orbit-blue-600);
+}
+
+.mega__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: 0;
+}
+
+/* Promo image fills the aside; the pricing link sits underneath. */
+.mega__promo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+}
+
+.mega__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--ink-100);
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+}
+
+/* --- Mobile drawer ------------------------------------------------------ */
+.drawer {
+  position: fixed;
+  inset: var(--nav-h) 0 0 auto;
+  z-index: 99;
+  width: min(420px, 100%);
+  background: #fff;
+  transform: translateX(105%);
+  transition: transform var(--dur-base) var(--ease-out);
+  box-shadow: var(--sh-xl);
+  display: none;
+}
+
+.drawer.is-open {
+  transform: translateX(0);
+}
+
+.drawer__scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--sp-5) var(--sp-5) var(--sp-9);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.drawer__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer__group {
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.drawer__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 1.15rem;
+  color: var(--ink-900);
+  text-align: left;
+  border-bottom: 1px solid transparent;
+}
+
+a.drawer__trigger {
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.drawer__trigger svg {
+  transition: transform var(--dur-base) var(--ease-out);
+  color: var(--ink-400);
+}
+
+.drawer__group.is-open .drawer__trigger svg {
+  transform: rotate(180deg);
+}
+
+.drawer__sub {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease-out);
+}
+
+.drawer__group.is-open .drawer__sub {
+  grid-template-rows: 1fr;
+}
+
+.drawer__sub-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.drawer__sub a {
+  display: block;
+  padding: 0.6rem 0 0.6rem 0.9rem;
+  border-left: 2px solid var(--ink-100);
+  margin-bottom: 0.35rem;
+}
+
+.drawer__sub a strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--ink-900);
+  font-size: 1rem;
+}
+
+.drawer__sub a span {
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+}
+
+.drawer__group.is-open .drawer__sub-inner {
+  padding-bottom: var(--sp-4);
+}
+
+.drawer__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.drawer__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  background: rgba(19, 42, 30, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-base) var(--ease-out), visibility var(--dur-base);
+  display: none;
+}
+
+.drawer__scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__panel {
+    display: none;
+  }
+
+  .nav__burger {
+    display: grid;
+    place-items: center;
+  }
+
+  .drawer,
+  .drawer__scrim {
+    display: block;
+  }
+}
+
+@media (max-width: 620px) {
+  .nav__login,
+  .nav__cta {
+    display: none;
+  }
+
+  .nav__inner {
+    gap: var(--sp-3);
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 1081px) {
+  .mega--products {
+    grid-template-columns: minmax(0, 1fr) 210px;
+    max-width: 100%;
+  }
+}

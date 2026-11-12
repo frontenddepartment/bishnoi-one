@@ -1,0 +1,184 @@
+/* ==========================================================================
+   Product showcase — auto-rotating panel and the per-product brand art
+   ========================================================================== */
+
+.showcase {
+  background: var(--surface);
+  /* Sits right under the system cards, so only a small gap above. */
+  padding-top: clamp(0.5rem, 1vw, 1rem);
+  padding-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+}
+
+/* --- Panel -------------------------------------------------------------- */
+.showcase__panel {
+  --accent: #f36b21;
+  --accent-2: #f9a03f;
+  --accent-soft: #fde8da;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(1.5rem, 0.5rem + 3vw, 4rem);
+  margin-top: 0;
+  padding: clamp(1rem, 0.6rem + 1.5vw, 2rem) clamp(1.75rem, 1rem + 2.5vw, 3.5rem);
+  border-radius: var(--r-2xl);
+  background: #fff;
+  overflow: hidden;
+}
+
+.showcase__panel[data-accent='green'] {
+  --accent: #173f2a;
+  --accent-2: #2e8a57;
+  --accent-soft: #e0eee5;
+}
+
+.showcase__panel[data-accent='violet'] {
+  --accent: #5a6dff;
+  --accent-2: #8c99ff;
+  --accent-soft: #e7eaff;
+}
+
+.showcase__panel[data-accent='coral'] {
+  --accent: #e02f2f;
+  --accent-2: #fd4040;
+  --accent-soft: #ffe5e5;
+}
+
+.showcase__panel[data-accent='yellow'] {
+  --accent: #8a6d00;
+  --accent-2: #ffd900;
+  --accent-soft: #fff7cc;
+}
+
+.showcase__panel[data-accent='leaf'] {
+  --accent: #3e8e2d;
+  --accent-2: #59ba43;
+  --accent-soft: #e6f5e1;
+}
+
+.showcase__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  animation: orbit-rise 520ms var(--ease-out) both;
+}
+
+.showcase__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+}
+
+.showcase__copy h3 {
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.5rem);
+  letter-spacing: -0.03em;
+}
+
+.showcase__copy p {
+  color: var(--ink-500);
+  font-size: 1.05rem;
+}
+
+.showcase__bullets {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.showcase__bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-700);
+}
+
+.showcase__check {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.showcase__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-top: var(--sp-2);
+}
+
+.showcase__cta {
+  --btn-bg: var(--accent);
+}
+
+.showcase__cta:hover {
+  --btn-bg: color-mix(in srgb, var(--accent) 88%, #000);
+}
+
+.showcase__stat {
+  display: flex;
+  flex-direction: column;
+  padding-left: var(--sp-5);
+  border-left: 1px solid var(--ink-100);
+}
+
+.showcase__stat strong {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.showcase__stat span {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  max-width: 20ch;
+}
+
+/* --- Art canvas --------------------------------------------------------- */
+.showcase__art {
+  position: relative;
+  /* The demo window fills the whole right column: no frame around it. */
+  display: flex;
+  align-self: stretch;
+  min-height: clamp(340px, 30vw, 420px);
+}
+
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .showcase__panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .showcase__art {
+    order: -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .showcase__footer {
+    gap: var(--sp-4);
+  }
+
+  .showcase__stat {
+    padding-left: var(--sp-4);
+  }
+}

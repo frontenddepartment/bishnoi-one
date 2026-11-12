@@ -1,0 +1,70 @@
+.orbit-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* The mark is 1.25:1, so height drives the size and width follows. */
+.orbit-logo__mark {
+  flex: none;
+  width: auto;
+  height: 38px;
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.orbit-logo:hover .orbit-logo__mark {
+  transform: scale(1.06);
+}
+
+.orbit-logo__word {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.4rem;
+  letter-spacing: -0.03em;
+  color: var(--ink-900);
+}
+
+.orbit-logo__word[data-tone='light'] {
+  color: #fff;
+}
+
+@media (max-width: 620px) {
+  .orbit-logo__mark {
+    height: 32px;
+  }
+
+  .orbit-logo__word {
+    font-size: 1.25rem;
+  }
+}
+
+/* --- Navbar size --------------------------------------------------------- */
+.orbit-logo--lockup .orbit-logo__mark {
+  height: 30px;
+}
+
+.orbit-logo--lockup .orbit-logo__word {
+  font-size: 1.1rem;
+}
+
+a:hover .orbit-logo__mark {
+  transform: scale(1.06);
+}
+
+.orbit-logo__word {
+  white-space: nowrap;
+}
+
+.orbit-logo__accent {
+  color: var(--orbit-blue-600);
+}
+
+@media (max-width: 620px) {
+  .orbit-logo--lockup .orbit-logo__mark {
+    height: 26px;
+  }
+
+  .orbit-logo--lockup .orbit-logo__word {
+    font-size: 1rem;
+  }
+}

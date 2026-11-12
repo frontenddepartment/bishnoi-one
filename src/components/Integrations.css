@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Features — two infinite marquee rows of feature pills
+   ========================================================================== */
+
+.integrations {
+  overflow: hidden;
+}
+
+.integrations__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-top: var(--sp-7);
+  /* Fade the rows out at both edges so they read as continuous motion. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  gap: var(--sp-4);
+  padding-right: var(--sp-4);
+  width: max-content;
+  animation: orbit-marquee 42s linear infinite;
+}
+
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+  animation-duration: 52s;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.int-chip {
+  --accent: #f36b21;
+  --accent-soft: #fde8da;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.4rem 0.85rem 0.85rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 1rem;
+  color: var(--ink-700);
+  white-space: nowrap;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+
+.int-chip:hover {
+  border-color: var(--ink-200);
+}
+
+/* Icon circles in the brand palette. */
+.int-chip[data-tone='orange'] { --accent: #f36b21; --on: #fff; }
+.int-chip[data-tone='blue'] { --accent: #5a6dff; --on: #fff; }
+.int-chip[data-tone='yellow'] { --accent: #ffd900; --on: #132a1e; }
+.int-chip[data-tone='red'] { --accent: #fd4040; --on: #fff; }
+.int-chip[data-tone='green'] { --accent: #59ba43; --on: #fff; }
+.int-chip[data-tone='forest'] { --accent: #173f2a; --on: #fff; }
+
+.int-chip__mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on);
+}
+
+.integrations__foot {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-6);
+}
+
+@media (max-width: 620px) {
+  .int-chip {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.1rem 0.7rem 0.7rem;
+  }
+
+  .int-chip__mark {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+}

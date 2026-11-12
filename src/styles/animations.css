@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Bishnoi One — motion layer
+   Scroll reveals, ambient loops and the decorative blob field.
+   Everything here degrades to "already visible" under reduced motion.
+   ========================================================================== */
+
+/* --- Scroll reveal ------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal[data-direction='left'] {
+  transform: translateX(-38px);
+}
+
+.reveal[data-direction='right'] {
+  transform: translateX(38px);
+}
+
+.reveal[data-direction='scale'] {
+  transform: scale(0.94);
+}
+
+.reveal[data-direction='none'] {
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Ambient keyframes -------------------------------------------------- */
+@keyframes orbit-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translate3d(0, var(--float-y, -18px), 0) rotate(var(--rot, 0deg));
+  }
+}
+
+@keyframes orbit-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(3%, -5%, 0) scale(1.06);
+  }
+  66% {
+    transform: translate3d(-4%, 4%, 0) scale(0.96);
+  }
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes orbit-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes orbit-sheen {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes orbit-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes orbit-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  60% {
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-track {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.float {
+  animation: orbit-float 7s var(--ease-in-out) infinite;
+}
+
+.spin-slow {
+  animation: orbit-spin 26s linear infinite;
+}
+
+/* --- Decorative gradient blobs ------------------------------------------ */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: orbit-drift 18s var(--ease-in-out) infinite;
+  z-index: 0;
+}
+
+.blob--blue {
+  background: radial-gradient(circle, rgba(243, 107, 33, 0.55), rgba(243, 107, 33, 0));
+}
+
+.blob--green {
+  background: radial-gradient(circle, rgba(46, 138, 87, 0.5), rgba(46, 138, 87, 0));
+}
+
+.blob--sky {
+  background: radial-gradient(circle, rgba(249, 160, 63, 0.45), rgba(249, 160, 63, 0));
+}
+
+/* Sideways reveals are a wide-screen effect. On narrow viewports they would
+   slide in from beyond the edge, so everything rises vertically instead. */
+@media (max-width: 700px) {
+  .reveal[data-direction='left'],
+  .reveal[data-direction='right'] {
+    transform: translateY(24px);
+  }
+}
+
+/* --- Reduced motion ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

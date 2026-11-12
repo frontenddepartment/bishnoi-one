@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Testimonials — single large quote with a dot carousel
+   ========================================================================== */
+
+.quotes__stage {
+  --accent: #f36b21;
+  --accent-soft: #fde8da;
+  position: relative;
+  max-width: 900px;
+  margin: var(--sp-7) auto 0;
+}
+
+.quotes__stage[data-accent='green'] {
+  --accent: #173f2a;
+  --accent-soft: #e0eee5;
+}
+
+.quotes__stage[data-accent='violet'] {
+  --accent: #5a6dff;
+  --accent-soft: #e7eaff;
+}
+
+.quotes__mark {
+  position: absolute;
+  top: -22px;
+  left: clamp(1.5rem, 4vw, 3rem);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  color: var(--accent);
+  transition: color var(--dur-slow) var(--ease-out);
+}
+
+.quotes__card {
+  position: relative;
+  margin: 0;
+  padding: clamp(2.5rem, 1.5rem + 3vw, 3.75rem) clamp(1.5rem, 1rem + 2.5vw, 3.25rem)
+    clamp(1.75rem, 1rem + 2vw, 2.5rem);
+  border-radius: var(--r-2xl);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  overflow: hidden;
+  animation: orbit-rise 560ms var(--ease-out) both;
+}
+
+.quotes__card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--orbit-green-500));
+}
+
+.quotes__card p {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: clamp(1.1rem, 0.95rem + 0.8vw, 1.45rem);
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+  text-wrap: balance;
+}
+
+.quotes__card footer {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--ink-100);
+}
+
+.quotes__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--accent), var(--orbit-green-500));
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.2rem;
+}
+
+.quotes__person {
+  display: flex;
+  flex-direction: column;
+}
+
+.quotes__person strong {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  color: var(--ink-900);
+}
+
+.quotes__person em {
+  font-style: normal;
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+}
+
+.quotes__metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  text-align: right;
+}
+
+.quotes__metric strong {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  transition: color var(--dur-slow) var(--ease-out);
+}
+
+.quotes__metric em {
+  font-style: normal;
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+/* --- Controls ----------------------------------------------------------- */
+.quotes__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+}
+
+.quotes__controls > button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--ink-200);
+  color: var(--ink-700);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.quotes__controls > button:hover {
+  background: var(--ink-900);
+  border-color: var(--ink-900);
+  color: #fff;
+}
+
+.quotes__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quotes__dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--ink-200);
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.quotes__dots button.is-active {
+  width: 30px;
+  background: var(--accent);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 620px) {
+  .quotes__mark {
+    width: 56px;
+    height: 56px;
+    top: -18px;
+  }
+
+  .quotes__card footer {
+    flex-wrap: wrap;
+  }
+
+  .quotes__metric {
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 0;
+    padding-top: var(--sp-4);
+    border-top: 1px dashed var(--ink-100);
+  }
+}

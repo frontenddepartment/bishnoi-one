@@ -1,0 +1,141 @@
+/* ==========================================================================
+   How it works — four numbered steps on a connecting track
+   ========================================================================== */
+
+.how {
+  position: relative;
+  overflow: hidden;
+}
+
+.how__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+  margin-top: var(--sp-8);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+/* The track that threads the four numbers together. */
+.how__steps::before {
+  content: '';
+  position: absolute;
+  top: 27px;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--orbit-blue-100) 12%,
+    var(--orbit-sky-100) 50%,
+    var(--orbit-green-100) 84%,
+    transparent
+  );
+  z-index: 0;
+}
+
+.how-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-right: var(--sp-3);
+}
+
+.how-step__number {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--ink-100);
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  color: var(--orbit-blue-600);
+  transition: transform var(--dur-base) var(--ease-spring), background var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.how-step:hover .how-step__number {
+  transform: scale(1.1) translateY(-3px);
+  background: var(--grad-brand);
+  border-color: transparent;
+  color: #fff;
+}
+
+.how-step h3 {
+  font-size: 1.2rem;
+}
+
+.how-step p {
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+}
+
+/* --- Closing call to action --------------------------------------------- */
+.how__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  margin-top: var(--sp-8);
+  padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  border-radius: var(--r-xl);
+  background: var(--surface-muted);
+  border: 1px solid var(--ink-100);
+}
+
+.how__cta-text h3 {
+  font-size: 1.25rem;
+}
+
+.how__cta-text p {
+  color: var(--ink-500);
+  font-size: var(--fs-sm);
+  margin-top: 0.25rem;
+}
+
+.how__cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.how__cta-actions .btn--ghost {
+  background: #fff;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 980px) {
+  .how__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-6);
+  }
+
+  .how__steps::before {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .how__steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .how__cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .how__cta-actions .btn {
+    flex: 1;
+  }
+}

@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Footer — dark, link-dense, with a signup and trust row
+   ========================================================================== */
+
+.footer {
+  padding-block: clamp(3rem, 2rem + 4vw, 5rem) var(--sp-6);
+  background: var(--surface);
+  border-top: 1px solid var(--ink-100);
+  color: var(--ink-500);
+  font-size: var(--fs-sm);
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+.footer__brand > p {
+  max-width: 38ch;
+  line-height: 1.6;
+}
+
+.footer__signup {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 380px;
+  padding: 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-muted);
+  border: 1px solid var(--ink-200);
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+
+.footer__signup:focus-within {
+  border-color: var(--orbit-blue-500);
+}
+
+.footer__signup input {
+  flex: 1;
+  min-width: 0;
+  padding-inline: 0.9rem;
+  background: none;
+  border: 0;
+  color: var(--ink-900);
+  font-size: var(--fs-sm);
+}
+
+.footer__signup input::placeholder {
+  color: var(--ink-400);
+}
+
+.footer__signup input:focus {
+  outline: none;
+}
+
+.footer__signupnote {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+  margin-top: -0.5rem;
+}
+
+/* --- Link columns ------------------------------------------------------- */
+.footer__cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-5);
+}
+
+.footer__col h4 {
+  font-size: 0.95rem;
+  margin-bottom: var(--sp-4);
+}
+
+.footer__col ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer__col a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ink-500);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+/* Every system logo sits in the same 20px box so they read as one size. */
+.footer__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+
+.footer__logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.footer__glyph {
+  flex: none;
+  color: var(--ink-400);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.footer__col a:hover .footer__glyph {
+  color: var(--orbit-blue-600);
+}
+
+.footer__col a:hover {
+  color: var(--orbit-blue-600);
+}
+
+/* --- Trust badges ------------------------------------------------------- */
+.footer__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--ink-100);
+}
+
+.footer__badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.footer__badges svg {
+  color: var(--orbit-green-500);
+}
+
+/* --- Bottom row --------------------------------------------------------- */
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--ink-100);
+  font-size: var(--fs-xs);
+}
+
+.footer__legal,
+.footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-4);
+  list-style: none;
+  padding: 0;
+}
+
+.footer__legal a:hover {
+  color: var(--orbit-blue-600);
+}
+
+.footer__social {
+  margin-left: auto;
+  gap: 0.5rem;
+}
+
+.footer__social a {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-muted);
+  border: 1px solid var(--ink-100);
+  color: var(--ink-500);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.footer__social a:hover {
+  background: var(--grad-brand);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 980px) {
+  .footer__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .footer__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-5) var(--sp-4);
+  }
+
+  .footer__social {
+    margin-left: 0;
+  }
+}

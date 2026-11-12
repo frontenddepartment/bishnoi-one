@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Pricing — billing toggle, seat picker, tier cards, enterprise strip
+   ========================================================================== */
+
+.pricing {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* --- Controls ----------------------------------------------------------- */
+.pricing__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+}
+
+.toggle {
+  display: inline-flex;
+  padding: 5px;
+  border-radius: var(--r-pill);
+  background: var(--ink-50);
+  border: 1px solid var(--ink-100);
+}
+
+.toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  transition: all var(--dur-base) var(--ease-out);
+}
+
+.toggle button.is-active {
+  background: #fff;
+  color: var(--ink-900);
+  box-shadow: var(--sh-sm);
+}
+
+.toggle__save {
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--r-pill);
+  background: var(--orbit-green-100);
+  color: var(--orbit-green-700);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+}
+
+.seats {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  border: 1px solid var(--ink-200);
+}
+
+.seats__label {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+}
+
+.seats select {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding-right: 1.2rem;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  color: var(--ink-900);
+  cursor: pointer;
+}
+
+.seats svg {
+  position: absolute;
+  right: 0.9rem;
+  color: var(--ink-400);
+  pointer-events: none;
+}
+
+/* --- Tier cards --------------------------------------------------------- */
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(0.85rem, 0.4rem + 1vw, 1.5rem);
+  margin-top: var(--sp-7);
+}
+
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: clamp(1.4rem, 1rem + 1vw, 2rem);
+  border-radius: var(--r-xl);
+  background: #fff;
+  border: 2px solid var(--ink-100);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out), opacity 0.7s var(--ease-out);
+}
+
+.tier:hover {
+  border-color: var(--orbit-blue-500);
+}
+
+.tier--popular {
+  border-color: transparent;
+  box-shadow: var(--sh-md);
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    var(--grad-brand) border-box;
+  border: 2px solid transparent;
+}
+
+.tier--popular:hover {
+  border-color: transparent;
+}
+
+.tier__flag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--r-pill);
+  background: var(--grad-brand);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tier__head h3 {
+  font-size: 1.35rem;
+}
+
+.tier__head p {
+  font-size: var(--fs-sm);
+  color: var(--ink-400);
+  margin-top: 0.15rem;
+  /* Reserve two lines so every card's price row starts on the same baseline. */
+  min-height: 2.9em;
+}
+
+.tier__price {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.tier__currency {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 1.3rem;
+  color: var(--ink-900);
+  margin-top: 0.45rem;
+}
+
+.tier__amount {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink-900);
+  font-variant-numeric: tabular-nums;
+}
+
+.tier__period {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.4rem;
+  margin-left: 0.3rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--ink-400);
+  line-height: 1.25;
+}
+
+.tier__period em {
+  font-style: normal;
+}
+
+.tier__total {
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+  min-height: 2.4em;
+  margin-top: -0.6rem;
+}
+
+.tier__features {
+  list-style: none;
+  padding: var(--sp-4) 0 0;
+  /* Anchored to the top of the remaining space, not the bottom of the card,
+     so the divider sits at the same height across all four tiers. */
+  margin-top: var(--sp-1);
+  border-top: 1px solid var(--ink-100);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.tier__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-700);
+}
+
+.tier__features svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--orbit-green-500);
+}
+
+/* --- Enterprise strip --------------------------------------------------- */
+.pricing__enterprise {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin-top: var(--sp-7);
+  padding: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  border-radius: var(--r-2xl);
+  background: var(--surface-muted);
+  border: 1px solid var(--ink-100);
+  color: var(--ink-500);
+}
+
+.pricing__enterprise h3 {
+  font-size: 1.3rem;
+  margin: var(--sp-3) 0 var(--sp-2);
+}
+
+.pricing__enterprise p {
+  font-size: var(--fs-sm);
+}
+
+.pricing__enterprise-pill {
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  color: var(--orbit-blue-700);
+}
+
+.pricing__enterprise-points {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 1rem;
+}
+
+.pricing__enterprise-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-700);
+}
+
+.pricing__enterprise-points svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--orbit-green-500);
+}
+
+.pricing__note {
+  margin-top: var(--sp-5);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .pricing__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .pricing__enterprise {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pricing__enterprise .btn {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .pricing__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pricing__enterprise-points {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pricing__controls {
+    flex-direction: column;
+  }
+}
+
+/* Pricing as its own page: clear the fixed navigation bar. */
+.page--pricing {
+  padding-top: var(--nav-h);
+}

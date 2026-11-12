@@ -1,0 +1,116 @@
+/* ==========================================================================
+   FAQ — sticky intro beside an accordion
+   ========================================================================== */
+
+.faq__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  align-items: start;
+}
+
+.faq__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  position: sticky;
+  top: calc(var(--nav-h) + 2rem);
+}
+
+.faq__aside .btn {
+  background: #fff;
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  border-radius: var(--r-lg);
+  background: #fff;
+  border: 1px solid var(--ink-100);
+  transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.faq-item.is-open {
+  border-color: var(--orbit-blue-500);
+}
+
+.faq-item h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.faq-item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: 1.15rem 1.4rem;
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: 1.05rem;
+  color: var(--ink-900);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.faq-item button:hover {
+  color: var(--orbit-blue-600);
+}
+
+.faq-item__toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink-50);
+  color: var(--ink-700);
+  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-spring);
+}
+
+.faq-item.is-open .faq-item__toggle {
+  background: var(--grad-brand);
+  color: #fff;
+  transform: rotate(180deg);
+}
+
+/* Grid-rows trick animates from auto height without measuring in JS. */
+.faq-item__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease-out);
+}
+
+.faq-item.is-open .faq-item__body {
+  grid-template-rows: 1fr;
+}
+
+.faq-item__body p {
+  overflow: hidden;
+  padding-inline: 1.4rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  max-width: 62ch;
+}
+
+.faq-item.is-open .faq-item__body p {
+  padding-bottom: 1.3rem;
+}
+
+@media (max-width: 900px) {
+  .faq__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .faq__aside {
+    position: static;
+  }
+}

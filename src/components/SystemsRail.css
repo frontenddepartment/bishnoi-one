@@ -1,0 +1,280 @@
+/* ==========================================================================
+   Systems rail — heading with offset second line, controls on the right,
+   and a full-bleed sliding row of system cards.
+   ========================================================================== */
+
+.rail {
+  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(0.5rem, 1vw, 1rem);
+  background: #fff;
+  overflow: hidden;
+}
+
+.rail__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.rail__title {
+  font-size: clamp(2rem, 1.1rem + 3.4vw, 3.9rem);
+  font-weight: var(--fw-heading);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: var(--ink-900);
+}
+
+.rail__title-2 {
+  display: block;
+  padding-left: clamp(1.5rem, 9vw, 9rem);
+}
+
+.rail__title em {
+  font-style: normal;
+  color: var(--orbit-blue-600);
+}
+
+.rail__side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 0.4rem;
+}
+
+.rail__side p {
+  max-width: 40ch;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--ink-500);
+}
+
+.rail__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rail__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.rail__dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--ink-200);
+  background: transparent;
+  cursor: pointer;
+  transition: width var(--dur-base) var(--ease-out), background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.rail__dots button.is-active {
+  width: 22px;
+  background: var(--orbit-blue-600);
+  border-color: var(--orbit-blue-600);
+}
+
+.rail__arrows {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.rail__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-200);
+  background: #fff;
+  color: var(--orbit-blue-600);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.rail__arrow--next {
+  background: var(--orbit-blue-600);
+  border-color: var(--orbit-blue-600);
+  color: #fff;
+}
+
+.rail__arrow:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.rail__arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* --- Track: starts at the shell's left edge, bleeds off the right --------- */
+.rail__track {
+  --edge: max(var(--gutter), calc((100vw - 1440px) / 2 + var(--gutter)));
+  display: flex;
+  gap: 16px;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 0.5rem var(--edge) 1rem;
+  scroll-padding-inline: var(--edge);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.rail__track::-webkit-scrollbar {
+  display: none;
+}
+
+.rail__card {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(250px, 24vw, 300px);
+  min-height: clamp(280px, 26vw, 320px);
+  padding: 1.3rem 1.25rem 1.2rem;
+  border-radius: var(--r-2xl);
+  scroll-snap-align: start;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  transition-delay: calc(var(--i) * 90ms), calc(var(--i) * 90ms), 0s;
+}
+
+.rail.is-in .rail__card {
+  opacity: 1;
+  transform: none;
+}
+
+.rail.is-in .rail__card:hover {
+  transform: translateY(-6px);
+  transition-delay: 0s;
+  box-shadow: 0 18px 36px rgba(19, 42, 30, 0.12);
+}
+
+/* Card styles */
+.rail__card--orange {
+  --fg: #fff;
+  --muted: rgba(255, 255, 255, 0.82);
+  --line: rgba(255, 255, 255, 0.35);
+  --go-bg: #fff;
+  --go-fg: var(--orbit-blue-600);
+  background: linear-gradient(160deg, #f5843f, #f36b21 55%, #e85d12);
+}
+
+.rail__card--light {
+  --fg: var(--ink-900);
+  --muted: var(--ink-500);
+  --line: var(--ink-100);
+  --go-bg: var(--ink-900);
+  --go-fg: #fff;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--ink-200), 0 10px 24px rgba(19, 42, 30, 0.06);
+}
+
+.rail__card--forest {
+  --fg: #fff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --line: rgba(255, 255, 255, 0.2);
+  --go-bg: #fff;
+  --go-fg: var(--orbit-green-700);
+  background: linear-gradient(160deg, #1f5238, #173f2a 60%, #10301f);
+}
+
+.rail__card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.rail__logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.5rem;
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--ink-100);
+}
+
+.rail__logo img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.rail__card h3 {
+  font-size: 1.3rem;
+  font-weight: var(--fw-heading);
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.rail__tagline {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.rail__card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.rail__card-bottom > p {
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.rail__card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rail__go {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--go-bg);
+  color: var(--go-fg);
+  transition: transform var(--dur-base) var(--ease-spring);
+}
+
+.rail__card:hover .rail__go {
+  transform: rotate(45deg);
+}
+
+.rail__more {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .rail__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Closing CTA — full-bleed brand gradient with an orbit motif
+   ========================================================================== */
+
+.cta {
+  position: relative;
+  padding-block: clamp(4rem, 2.5rem + 6vw, 7.5rem);
+  background: var(--grad-brand);
+  background-repeat: no-repeat;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 90% at 50% 120%, rgba(19, 42, 30, 0.32), transparent 70%);
+  z-index: -1;
+}
+
+/* A slow travelling highlight, kept on its own layer so the blue-to-green
+   brand gradient underneath is never cropped or repeated. */
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 70%
+  );
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  animation: orbit-sheen 14s var(--ease-in-out) infinite alternate;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- Decorative sky ----------------------------------------------------- */
+.cta__sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cta__planet {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  translate: 0 -50%;
+  background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.18));
+  filter: blur(0.5px);
+  opacity: 0.35;
+  animation: orbit-float 9s var(--ease-in-out) infinite;
+  --float-y: -22px;
+}
+
+.cta__ring {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  translate: 50% -50%;
+  animation: orbit-spin 40s linear infinite;
+}
+
+.cta__ring--1 {
+  width: 360px;
+  height: 360px;
+  border-style: dashed;
+}
+
+.cta__ring--2 {
+  width: 520px;
+  height: 520px;
+  border-color: rgba(255, 255, 255, 0.16);
+  animation-duration: 64s;
+  animation-direction: reverse;
+}
+
+.cta__star {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.7;
+  animation: orbit-pulse 3.4s var(--ease-in-out) infinite;
+}
+
+.cta__star--1 {
+  top: 18%;
+  left: 12%;
+}
+
+.cta__star--2 {
+  bottom: 22%;
+  left: 24%;
+  width: 7px;
+  height: 7px;
+  animation-delay: -1.2s;
+}
+
+.cta__star--3 {
+  top: 26%;
+  left: 48%;
+  width: 6px;
+  height: 6px;
+  animation-delay: -2.4s;
+}
+
+/* --- Content ------------------------------------------------------------ */
+.cta__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  text-align: center;
+}
+
+.cta__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-xs);
+}
+
+.cta h2 {
+  font-size: clamp(2.1rem, 1.3rem + 3.6vw, 3.9rem);
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.cta__inner > p {
+  max-width: 46ch;
+  font-size: var(--fs-lead);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.cta__fine {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 1.2rem;
+  margin-top: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cta__fine span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+@media (max-width: 900px) {
+  .cta__planet,
+  .cta__ring {
+    right: -10%;
+    opacity: 0.25;
+  }
+}

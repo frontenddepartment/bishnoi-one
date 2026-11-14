@@ -1,0 +1,433 @@
+/* ==========================================================================
+   System pages (#/systems/<id>). Builds on PlatformPage.css (pf-*) for the
+   hero, sections, cards and FAQ; only system-specific pieces live here.
+   ========================================================================== */
+
+.page--system {
+  padding-top: var(--nav-h);
+}
+
+.sp-hero {
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
+}
+
+.sp-hero__visual {
+  width: 100%;
+  max-width: 980px;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* --- Hero pipeline board ------------------------------------------------ */
+.sp-board {
+  border: 1px solid var(--ink-100);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+  text-align: left;
+}
+
+.sp-board__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.sp-board__bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink-200);
+}
+
+.sp-board__bar b {
+  margin-left: 0.6rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--ink-500);
+}
+
+.sp-board__cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--ink-50);
+}
+
+.sp-board__col {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+}
+
+.sp-board__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem 0.3rem 0.35rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+}
+
+.sp-board__head small {
+  min-width: 1.4rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  font-size: 0.7rem;
+  text-align: center;
+  color: var(--ink-500);
+}
+
+.sp-deal {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid var(--ink-100);
+  border-left: 3px solid var(--orbit-violet);
+  border-radius: 10px;
+  background: #fff;
+  animation: sp-rise 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 90ms + 400ms);
+}
+
+.sp-deal.is-won {
+  border-left-color: var(--accent-green);
+}
+
+.sp-deal b {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.sp-deal__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.sp-deal__row i {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--orbit-violet-100);
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: var(--fw-medium);
+  color: var(--orbit-violet);
+}
+
+@keyframes sp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-deal {
+    animation: none;
+  }
+}
+
+/* --- What is a CRM? ----------------------------------------------------- */
+.sp-explain {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.sp-explain__text h2 {
+  max-width: 20ch;
+  margin: 0.6rem 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 1.1rem + 2.4vw, 3rem);
+  font-weight: var(--fw-regular);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink-900);
+}
+
+.sp-explain__text p {
+  max-width: 56ch;
+  margin: 0 0 1rem;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-500);
+}
+
+.sp-keeps {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sp-keeps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.sp-keeps__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--orbit-violet-100);
+  color: var(--orbit-violet);
+}
+
+.sp-keeps li > span:last-child {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.sp-keeps b {
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.sp-keeps small {
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--ink-500);
+}
+
+/* --- Highlights --------------------------------------------------------- */
+.sp-highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.9rem, 1.6vw, 1.25rem);
+}
+
+.sp-tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--r-pill);
+  background: var(--orbit-violet-100);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--orbit-violet);
+}
+
+/* --- Journey tabs ------------------------------------------------------- */
+.sp-journey {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.sp-journey__tabs {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sp-journey__tab {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 14px;
+  background: #fff;
+  font: inherit;
+  font-weight: var(--fw-medium);
+  text-align: left;
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease-out), background-color 0.25s var(--ease-out);
+}
+
+.sp-journey__tab:hover {
+  border-color: var(--ink-400);
+}
+
+.sp-journey__tab.is-active {
+  border-color: var(--orbit-violet);
+  background: var(--orbit-violet-100);
+  color: var(--ink-900);
+}
+
+.sp-journey__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--ink-50);
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.sp-journey__tab.is-active .sp-journey__num {
+  background: var(--orbit-violet);
+  color: #fff;
+}
+
+.sp-journey__panel {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--ink-100);
+  border-radius: 20px;
+  background: #fff;
+  animation: sp-rise 0.4s var(--ease-out) both;
+}
+
+.sp-journey__progress {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.sp-journey__progress span {
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--ink-100);
+  transition: background-color 0.3s var(--ease-out);
+}
+
+.sp-journey__progress span.is-on {
+  background: var(--orbit-violet);
+}
+
+.sp-journey__panel h3 {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem);
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+
+.sp-journey__panel p {
+  max-width: 60ch;
+  margin: 0 0 1.25rem;
+  line-height: var(--lh-body);
+  color: var(--ink-500);
+}
+
+.sp-journey__panel ul {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid var(--ink-100);
+  list-style: none;
+}
+
+.sp-journey__panel li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-700);
+}
+
+.sp-journey__panel li svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent-green-ink);
+}
+
+/* --- Connected systems -------------------------------------------------- */
+.sp-connects {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.sp-connect {
+  padding: 1.25rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.sp-connect img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.sp-connect b {
+  display: block;
+  margin: 0.8rem 0 0.35rem;
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.sp-connect p {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--ink-500);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .sp-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-connects {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .sp-explain,
+  .sp-journey {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Tabs become a horizontal row above the panel. */
+  .sp-journey__tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sp-journey__tab {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.75rem 0.4rem;
+    font-size: var(--fs-sm);
+    text-align: center;
+  }
+
+  /* Board: show the first two stages so cards stay readable. */
+  .sp-board__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sp-board__col:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .sp-highlights,
+  .sp-connects {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

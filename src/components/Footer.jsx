@@ -75,9 +75,9 @@ export default function Footer() {
             <div key={column.title} className="footer__col">
               <h4>{column.title}</h4>
               <ul>
-                {column.links.map(([label, icon]) => (
+                {column.links.map(([label, icon, href]) => (
                   <li key={label}>
-                    <a href="#top">
+                    <a href={href || '#top'}>
                       <Glyph name={icon} />
                       {label}
                     </a>

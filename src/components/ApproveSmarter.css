@@ -1,0 +1,622 @@
+/* ==========================================================================
+   Approve smarter — two product panels + big orange headline band
+   Kept deliberately compact in height.
+   ========================================================================== */
+
+.aps {
+  font-family: 'Poppins', var(--font-body);
+  color: #2a2a2a;
+}
+
+/* --- Top panels ---------------------------------------------------------- */
+.aps__panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.aps__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  min-height: clamp(380px, 36vw, 560px);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  overflow: hidden;
+}
+
+.aps__panel--peach {
+  background: linear-gradient(160deg, #ffad7f 0%, #ff9a63 100%);
+}
+
+.aps__panel--lilac {
+  background: linear-gradient(160deg, #d3d8ff 0%, #c9cfff 100%);
+}
+
+.aps__tag {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--r-pill);
+  background: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  color: #3a4540;
+}
+
+/* Shared tiny button */
+.aps__btn {
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: var(--orbit-blue-600);
+  font-size: 7.5px;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.aps__btn--ghost {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ink-200);
+  color: #3a4540;
+}
+
+/* --- Modal mock ---------------------------------------------------------- */
+.aps__modal {
+  width: min(100%, 470px);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(120, 40, 0, 0.18);
+  font-size: 8px;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.aps.is-in .aps__modal {
+  opacity: 1;
+  transform: none;
+}
+
+.aps__modal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.aps__modal-head b {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 500;
+  color: #3a4540;
+}
+
+.aps__modal-head small {
+  color: var(--ink-400);
+}
+
+.aps__dot {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--orbit-blue-600);
+}
+
+.aps__x {
+  margin-left: auto;
+  color: var(--ink-400);
+}
+
+.aps__modal-body {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+}
+
+.aps__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  margin: 0;
+  list-style: none;
+  border-right: 1px solid var(--ink-100);
+}
+
+.aps__steps li {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition-delay: calc(0.4s + var(--i) * 0.08s);
+}
+
+.aps.is-in .aps__steps li {
+  opacity: 1;
+  transform: none;
+}
+
+.aps__steps img,
+.aps__sys img {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+
+.aps__steps b {
+  display: block;
+  font-weight: 500;
+  color: #3a4540;
+}
+
+.aps__steps small,
+.aps__side small {
+  color: var(--ink-400);
+}
+
+.aps__side {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+}
+
+.aps__side em {
+  font-style: normal;
+  font-size: 7px;
+  color: var(--ink-400);
+}
+
+.aps__sys {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #3a4540;
+}
+
+.aps__sys i {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: var(--r-pill);
+  font-style: normal;
+  font-size: 7px;
+  box-shadow: inset 0 0 0 1px var(--ink-200);
+}
+
+.aps__sys i.is-on {
+  background: var(--accent-green-100);
+  box-shadow: none;
+  color: var(--accent-green-ink);
+}
+
+.aps__side dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 6px;
+  margin: 0;
+}
+
+.aps__side dt {
+  color: var(--ink-400);
+}
+
+.aps__side dd {
+  margin: 0;
+  color: #3a4540;
+}
+
+.aps__modal-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--ink-100);
+}
+
+.aps__modal-foot > span:first-child {
+  margin-right: auto;
+  color: var(--orbit-blue-600);
+}
+
+/* --- Laptop on a table (public/tablelaptop.png) ------------------------ */
+.aps__scene {
+  position: relative;
+  width: min(100%, 420px);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s var(--ease-out) 0.15s, transform 0.8s var(--ease-out) 0.15s;
+}
+
+.aps.is-in .aps__scene {
+  opacity: 1;
+  transform: none;
+}
+
+.aps__scene-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The screen's content area inside the photo, below the browser toolbar:
+   x 165–1182, y 93–690 of a 1441 × 908 image. */
+.aps__screen-fit {
+  --s: 0.7;
+  position: absolute;
+  left: 11.45%;
+  top: 10.24%;
+  width: 70.58%;
+  height: 65.75%;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* --- Dashboard on the screen -------------------------------------------- */
+.aps__dash {
+  /* Designed at 440 × 258 (same shape as the screen), scaled to fit */
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  width: 440px;
+  height: 258px;
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+  background: #fff;
+  overflow: hidden;
+  font-size: 6px;
+  line-height: 1.3;
+  color: #3a4540;
+}
+
+.aps__side-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 7px 5px;
+  background: #fff;
+  border-right: 1px solid var(--ink-100);
+}
+
+.aps__brandmini {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 0 6px 3px;
+  font-size: 5.8px;
+  font-weight: 500;
+}
+
+.aps__brandmini img,
+.aps__nav-item img {
+  width: 8px;
+  height: 8px;
+  object-fit: contain;
+}
+
+.aps__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  font-size: 5.2px;
+  color: var(--ink-500);
+}
+
+.aps__nav-ico {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  color: var(--ink-400);
+}
+
+.aps__nav-item.is-on {
+  background: var(--orbit-blue-50);
+  color: var(--orbit-blue-700);
+}
+
+.aps__nav-item.is-on .aps__nav-ico {
+  color: var(--orbit-blue-600);
+}
+
+.aps__dash-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 10px 10px;
+}
+
+.aps__dash-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.aps__dash-head b {
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.aps__search {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1px var(--ink-100);
+  color: var(--ink-400);
+}
+
+.aps__me {
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #5a6dff;
+  font-size: 6px;
+  color: #fff;
+}
+
+/* Invoices-style grouped table: coloured group name, left colour bar,
+   cell borders and a full-colour status cell. */
+.aps__table {
+  display: flex;
+  flex-direction: column;
+}
+
+.aps__tr {
+  display: grid;
+  grid-template-columns: 1.7fr 0.55fr 0.8fr 0.95fr 0.75fr;
+  align-items: stretch;
+}
+
+.aps__tr > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 19px;
+  padding: 2px 5px;
+  border-top: 1px solid var(--ink-100);
+  border-right: 1px solid var(--ink-100);
+  white-space: nowrap;
+}
+
+.aps__tr > span:first-child {
+  align-items: flex-start;
+  border-left: 2px solid var(--grp);
+}
+
+.aps__tr > span:last-child {
+  border-right: 0;
+}
+
+.aps__tr:last-child > span {
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.aps__tr b {
+  overflow: hidden;
+  max-width: 100%;
+  font-weight: 500;
+  text-overflow: ellipsis;
+}
+
+.aps__tr small {
+  font-size: 5.5px;
+  color: var(--ink-400);
+}
+
+.aps__th > span {
+  min-height: 0;
+  padding: 0 5px 3px;
+  border: 0 !important;
+  color: var(--ink-500);
+}
+
+.aps__th > span:first-child {
+  padding-left: 0;
+  font-size: 7.5px;
+  font-weight: 500;
+  color: var(--grp);
+}
+
+.aps__av {
+  display: grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--c);
+  font-style: normal;
+  font-size: 5.5px;
+  color: #fff;
+}
+
+.aps__tr > .aps__status {
+  padding: 0;
+  font-weight: 500;
+  color: #fff;
+  background: #c4cbc7;
+}
+
+.aps__status[data-tone='yellow'] { background: #ffd900; color: #3d3200; }
+.aps__status[data-tone='green'] { background: #59ba43; }
+.aps__status[data-tone='red'] { background: #fd4040; }
+.aps__status[data-tone='blue'] { background: #5a6dff; }
+
+.aps__tr .aps__btn {
+  padding: 2px 7px;
+  font-style: normal;
+  font-size: 5.5px;
+}
+
+/* --- Headline band ------------------------------------------------------- */
+.aps__band {
+  position: relative;
+  padding: clamp(2rem, 4vw, 3.25rem) var(--gutter) clamp(2.75rem, 5vw, 4rem);
+  background: #ff4f1f;
+  overflow: hidden;
+}
+
+.aps__title {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--shell);
+  margin: 0 auto;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.4vw, 8rem);
+  font-weight: var(--fw-regular);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: #1a1a1a;
+}
+
+.aps__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vw, 2rem);
+}
+
+.aps__word {
+  display: block;
+  opacity: 0;
+  transform: translateY(30%);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.aps__row:nth-child(2) .aps__word {
+  transition-delay: 0.12s;
+}
+
+.aps.is-in .aps__word {
+  opacity: 1;
+  transform: none;
+}
+
+.aps__photo {
+  flex: none;
+  width: 2em;
+  height: 0.92em;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  transform: scale(0.6);
+  opacity: 0;
+  transition: transform 0.9s var(--ease-out) 0.3s, opacity 0.6s ease 0.3s;
+}
+
+.aps.is-in .aps__photo {
+  transform: none;
+  opacity: 1;
+}
+
+.aps__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aps__cta {
+  flex: none;
+  align-self: flex-end;
+  margin-bottom: 0.18em;
+  padding: 0.8rem 1.4rem;
+  border-radius: var(--r-pill);
+  background: #1a1a1a;
+  font-family: 'Poppins', var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.aps__cta:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+.aps__note {
+  max-width: var(--shell);
+  margin: clamp(1.25rem, 2.5vw, 2rem) auto 0;
+  font-family: 'Poppins', var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: #1a1a1a;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.5s;
+}
+
+.aps.is-in .aps__note {
+  opacity: 1;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 860px) {
+  .aps__panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .aps__panel {
+    height: auto;
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .aps__row:nth-child(2) {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aps__modal,
+  .aps__scene,
+  .aps__steps li,
+  .aps__word,
+  .aps__photo,
+  .aps__note {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Laptop photo runs edge to edge of the lilac panel and sits on its bottom
+   edge; the empty space at the top of the PNG tucks up under the tag. */
+.aps__panel--lilac {
+  justify-content: space-between;
+  gap: 0;
+  padding: clamp(1.25rem, 2.5vw, 2rem) 0 0;
+}
+
+.aps__panel--lilac .aps__scene {
+  width: 100%;
+  margin-top: clamp(1rem, 2.5vw, 2rem);
+}
+
+.aps__panel--lilac .aps__tag {
+  position: relative;
+  z-index: 2;
+}
+
+/* Both tags sit at the same height at the top of their panels; the workflow
+   card is centred in the space below its tag. */
+.aps__panel--peach {
+  justify-content: flex-start;
+}
+
+.aps__panel--peach .aps__modal {
+  margin-block: auto;
+}

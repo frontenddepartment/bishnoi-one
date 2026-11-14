@@ -12,14 +12,14 @@ const MENUS = [
   { id: 'resources', label: 'Resources' },
 ]
 
-function ProductsPanel() {
+function ProductsPanel({ onNavigate }) {
   return (
     <div className="mega mega--products">
       <div className="mega__main">
         <p className="mega__label">The Bishnoi One suite</p>
         <div className="mega__grid">
           {systems.map((system) => (
-            <a key={system.id} className="mega-card" href={system.href}>
+            <a key={system.id} className="mega-card" href={system.href} onClick={onNavigate}>
               <span className="mega-card__icon has-logo">
                 <img src={system.logo} alt="" width="28" height="28" className="product-logo" decoding="async" />
               </span>
@@ -51,12 +51,17 @@ function ProductsPanel() {
   )
 }
 
-function PlatformPanel() {
+function PlatformPanel({ onNavigate }) {
   return (
     <div className="mega mega--platform">
       <div className="mega__grid mega__grid--three">
         {platformMenu.map((item) => (
-          <a key={item.title} className="mega-card mega-card--plain" href="#platform">
+          <a
+            key={item.title}
+            className="mega-card mega-card--plain"
+            href={`#/platform/${item.slug}`}
+            onClick={onNavigate}
+          >
             <span
               className="mega-card__icon mega-card__icon--grad"
               style={{ '--g1': item.grad[0], '--g2': item.grad[1] }}
@@ -69,6 +74,12 @@ function PlatformPanel() {
             </span>
           </a>
         ))}
+      </div>
+      <div className="mega__footer">
+        <span>New to Bishnoi One?</span>
+        <a className="link-arrow" href="#/platform" onClick={onNavigate}>
+          See the whole platform <Icon name="arrowRight" size={16} />
+        </a>
       </div>
     </div>
   )
@@ -126,8 +137,8 @@ export default function Navbar() {
   }
 
   const renderPanel = (id) => {
-    if (id === 'products') return <ProductsPanel />
-    if (id === 'platform') return <PlatformPanel />
+    if (id === 'products') return <ProductsPanel onNavigate={() => setOpenMenu(null)} />
+    if (id === 'platform') return <PlatformPanel onNavigate={() => setOpenMenu(null)} />
     if (id === 'solutions') return <ListPanel items={solutionsMenu} />
     if (id === 'resources')
       return (
@@ -176,6 +187,9 @@ export default function Navbar() {
             <a className="nav__trigger" href="#/pricing">
               Pricing
             </a>
+            <a className="nav__trigger" href="#/about">
+              About
+            </a>
           </nav>
 
           <div className="nav__actions">
@@ -218,7 +232,7 @@ export default function Navbar() {
             {MENUS.map((menu) => {
               const items =
                 menu.id === 'products'
-                  ? systems.map((s) => ({ title: s.name, blurb: s.blurb }))
+                  ? systems.map((s) => ({ title: s.name, blurb: s.blurb, href: s.href }))
                   : menu.id === 'platform'
                     ? platformMenu
                     : menu.id === 'solutions'
@@ -241,7 +255,17 @@ export default function Navbar() {
                         grid row, so the links must share it. */}
                     <div className="drawer__sub-inner">
                       {items.map((item) => (
-                        <a key={item.title} href="#platform" onClick={() => setMobileOpen(false)}>
+                        <a
+                          key={item.title}
+                          href={
+                            menu.id === 'platform'
+                              ? `#/platform/${item.slug}`
+                              : menu.id === 'products'
+                                ? item.href
+                                : '#platform'
+                          }
+                          onClick={() => setMobileOpen(false)}
+                        >
                           <strong>{item.title}</strong>
                           <span>{item.blurb}</span>
                         </a>
@@ -253,6 +277,9 @@ export default function Navbar() {
             })}
             <a className="drawer__trigger" href="#/pricing" onClick={() => setMobileOpen(false)}>
               Pricing
+            </a>
+            <a className="drawer__trigger" href="#/about" onClick={() => setMobileOpen(false)}>
+              About
             </a>
           </nav>
 

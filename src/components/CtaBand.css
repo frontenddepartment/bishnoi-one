@@ -1,189 +1,316 @@
 /* ==========================================================================
-   Closing CTA — full-bleed brand gradient with an orbit motif
+   Closing CTA — dark banner: headline left; buttons over an orange sun right
    ========================================================================== */
 
 .cta {
+  --arc: clamp(250px, 21vw, 340px); /* radius (height) of the orange half circle */
   position: relative;
-  padding-block: clamp(4rem, 2.5rem + 6vw, 7.5rem);
-  background: var(--grad-brand);
-  background-repeat: no-repeat;
-  color: #fff;
+  display: flex;
+  min-height: clamp(380px, 34vw, 500px);
+  padding: 0 var(--gutter);
+  /* Three equal colour columns: blue, yellow, green */
+  background: linear-gradient(
+    90deg,
+    var(--accent-blue) 0 33.333%,
+    var(--accent-yellow) 33.333% 66.666%,
+    var(--accent-green) 66.666% 100%
+  );
+  color: #141414;
   overflow: hidden;
   isolation: isolate;
 }
 
-.cta::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(70% 90% at 50% 120%, rgba(19, 42, 30, 0.32), transparent 70%);
-  z-index: -1;
-}
-
-/* A slow travelling highlight, kept on its own layer so the blue-to-green
-   brand gradient underneath is never cropped or repeated. */
-.cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.16) 50%,
-    transparent 70%
-  );
-  background-size: 220% 100%;
-  background-repeat: no-repeat;
-  animation: orbit-sheen 14s var(--ease-in-out) infinite alternate;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* --- Decorative sky ----------------------------------------------------- */
-.cta__sky {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.cta__planet {
-  position: absolute;
-  top: 50%;
-  right: 8%;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  translate: 0 -50%;
-  background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.18));
-  filter: blur(0.5px);
-  opacity: 0.35;
-  animation: orbit-float 9s var(--ease-in-out) infinite;
-  --float-y: -22px;
-}
-
-.cta__ring {
-  position: absolute;
-  top: 50%;
-  right: 8%;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.28);
-  translate: 50% -50%;
-  animation: orbit-spin 40s linear infinite;
-}
-
-.cta__ring--1 {
-  width: 360px;
-  height: 360px;
-  border-style: dashed;
-}
-
-.cta__ring--2 {
-  width: 520px;
-  height: 520px;
-  border-color: rgba(255, 255, 255, 0.16);
-  animation-duration: 64s;
-  animation-direction: reverse;
-}
-
-.cta__star {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.7;
-  animation: orbit-pulse 3.4s var(--ease-in-out) infinite;
-}
-
-.cta__star--1 {
-  top: 18%;
-  left: 12%;
-}
-
-.cta__star--2 {
-  bottom: 22%;
-  left: 24%;
-  width: 7px;
-  height: 7px;
-  animation-delay: -1.2s;
-}
-
-.cta__star--3 {
-  top: 26%;
-  left: 48%;
-  width: 6px;
-  height: 6px;
-  animation-delay: -2.4s;
-}
-
-/* --- Content ------------------------------------------------------------ */
 .cta__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+  max-width: var(--shell);
+  margin: 0 auto;
+}
+
+/* --- Left: headline + sub ------------------------------------------------ */
+.cta__copy {
   position: relative;
+  z-index: 2;
+  align-self: center;
+  padding-block: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.cta__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08em;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 0.8rem + 4.6vw, 5.6rem);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.cta__word {
+  display: block;
+  opacity: 0;
+  transform: translateY(30%);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+/* White text with a soft shadow so it holds up on the yellow column too */
+.cta__title,
+.cta__sub {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.cta__word--1 {
+  color: #fff;
+}
+
+.cta__word--2 {
+  color: #fff;
+  transition-delay: 0.12s;
+}
+
+.cta.is-in .cta__word {
+  opacity: 1;
+  transform: none;
+}
+
+.cta__sub {
+  max-width: 50ch;
+  margin: clamp(1.5rem, 2.6vw, 2.25rem) 0 0 0.15rem;
+  font-size: var(--fs-body);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.5s;
+}
+
+.cta.is-in .cta__sub {
+  opacity: 1;
+}
+
+/* --- Right: buttons above an orange dome pinned to the right edge ------- */
+.cta__stage {
+  position: absolute;
+  /* Sink the half circle ~15% below the bottom edge; nudge right so its
+     visible foot still meets the screen edge. */
+  right: calc(var(--arc) * -0.012);
+  bottom: calc(var(--arc) * -0.15);
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-4);
-  text-align: center;
-}
-
-.cta__pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 1rem;
-  border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(6px);
-  font-family: var(--font-display);
-  font-weight: var(--fw-medium);
-  font-size: var(--fs-xs);
-}
-
-.cta h2 {
-  font-size: clamp(2.1rem, 1.3rem + 3.6vw, 3.9rem);
-  color: #fff;
-  letter-spacing: -0.04em;
-  line-height: 1.02;
-}
-
-.cta__inner > p {
-  max-width: 46ch;
-  font-size: var(--fs-lead);
-  color: rgba(255, 255, 255, 0.88);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  width: calc(var(--arc) * 2);
 }
 
 .cta__actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: var(--sp-3);
-  margin-top: var(--sp-2);
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s var(--ease-out) 0.4s, transform 0.7s var(--ease-out) 0.4s;
 }
 
-.cta__fine {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.35rem 1.2rem;
-  margin-top: var(--sp-3);
-  font-size: var(--fs-sm);
-  color: rgba(255, 255, 255, 0.82);
+.cta.is-in .cta__actions {
+  opacity: 1;
+  transform: none;
 }
 
-.cta__fine span {
+.cta__btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.25s var(--ease-out), border-color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
 }
 
-@media (max-width: 900px) {
-  .cta__planet,
-  .cta__ring {
-    right: -10%;
-    opacity: 0.25;
+.cta__btn:hover {
+  transform: translateY(-2px);
+}
+
+.cta__btn--solid {
+  background: #141414;
+  color: #fff;
+}
+
+.cta__btn--solid:hover {
+  background: #000;
+}
+
+.cta__btn--outline {
+  border: 1px solid rgba(20, 20, 20, 0.55);
+  color: #141414;
+}
+
+.cta__btn--outline:hover {
+  border-color: #141414;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Orange half circle (width = 2 x height) whose right foot sits on the screen
+   edge. It rises from below when the section comes into view. */
+.cta__sun {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  width: 100%;
+  height: var(--arc);
+  padding-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
+  border-radius: var(--arc) var(--arc) 0 0;
+  background: #ff4f2a;
+  box-shadow: 0 0 60px 10px rgba(255, 79, 42, 0.25);
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 1.4s var(--ease-out) 0.2s;
+}
+
+.cta.is-in .cta__sun {
+  transform: none;
+}
+
+/* Orbit: two white rings centred on the dome's base, turning in opposite
+   directions; the icons counter-rotate so they stay upright. */
+.cta__orbit {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
+
+.cta__ring {
+  position: absolute;
+  width: calc(var(--r) * 2);
+  height: calc(var(--r) * 2);
+  left: calc(var(--r) * -1);
+  top: calc(var(--r) * -1);
+  animation: cta-spin var(--dur) linear infinite;
+}
+
+.cta__ring--inner {
+  --r: calc(var(--arc) * 0.5);
+  --dur: 40s;
+}
+
+.cta__ring--outer {
+  --r: calc(var(--arc) * 0.86);
+  --dur: 60s;
+  animation-direction: reverse;
+}
+
+.cta__ring-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.cta__ring-line circle {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+.cta__ring-line .cta__ring-dot {
+  fill: #fff;
+  stroke: none;
+}
+
+.cta__node {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 2.8vw, 44px);
+  height: clamp(34px, 2.8vw, 44px);
+  margin: calc(clamp(34px, 2.8vw, 44px) / -2) 0 0 calc(clamp(34px, 2.8vw, 44px) / -2);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(120, 30, 10, 0.18);
+  color: #4a5560;
+  animation: cta-spin var(--dur) linear infinite;
+}
+
+/* Undo the ring's turn so the icon stays upright */
+.cta__ring--inner .cta__node {
+  animation-direction: reverse;
+}
+
+.cta__ring--outer .cta__node {
+  animation-direction: normal;
+}
+
+@keyframes cta-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 860px) {
+  .cta__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .cta__copy {
+    padding-bottom: 1.5rem;
+  }
+
+  .cta {
+    flex-direction: column;
+  }
+
+  .cta__stage {
+    position: relative;
+    align-self: flex-end;
+    width: calc(var(--arc) * 2);
+    margin-right: calc(-1 * var(--gutter));
+  }
+
+  .cta {
+    --arc: clamp(170px, 45vw, 250px);
+  }
+
+  .cta__btn {
+    padding: 0.8rem 1.3rem;
+    font-size: var(--fs-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta__word,
+  .cta__actions,
+  .cta__sub {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .cta__sun,
+  .cta.is-in .cta__sun {
+    transform: none;
+    transition: none;
+  }
+
+  .cta__ring,
+  .cta__node {
+    animation: none;
   }
 }

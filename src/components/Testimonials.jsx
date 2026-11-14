@@ -22,7 +22,7 @@ export default function Testimonials() {
   const current = testimonials[index]
 
   return (
-    <section className="section section--muted quotes" id="customers">
+    <section className="section section--tight quotes" id="customers">
       <div className="shell">
         <Reveal className="section-head section-head--center">
           <span className="eyebrow">

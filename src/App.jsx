@@ -7,22 +7,45 @@ import Statement from './components/Statement.jsx'
 import PeoplePills from './components/PeoplePills.jsx'
 import QuoteBand from './components/QuoteBand.jsx'
 import WordsSplit from './components/WordsSplit.jsx'
+import WorkflowStages from './components/WorkflowStages.jsx'
+import ApproveSmarter from './components/ApproveSmarter.jsx'
 import ProductShowcase from './components/ProductShowcase.jsx'
 import Capabilities from './components/Capabilities.jsx'
-import Spotlight from './components/Spotlight.jsx'
 import StatsBand from './components/StatsBand.jsx'
 import HowItWorks from './components/HowItWorks.jsx'
-import Testimonials from './components/Testimonials.jsx'
 import Integrations from './components/Integrations.jsx'
 import Pricing from './components/Pricing.jsx'
-import Faq from './components/Faq.jsx'
 import CtaBand from './components/CtaBand.jsx'
 import Footer from './components/Footer.jsx'
+import PlatformPage, { platformTitle } from './components/PlatformPage.jsx'
+import AboutPage from './components/AboutPage.jsx'
+import SystemPage, { systemTitle } from './components/SystemPage.jsx'
 
-// Simple hash routing: "#/pricing" opens the Pricing page; any other hash
-// (or none) shows the home page, where in-page anchors like #systems work.
+// Simple hash routing:
+//   #/pricing           Pricing page
+//   #/about             About page
+//   #/platform          Platform overview
+//   #/platform/<slug>   one Platform page (automations, dashboards, ai, ...)
+//   #/systems/<id>      one system page (crm, books, desk, ...)
+// Any other hash (or none) shows the home page, where in-page anchors like
+// #systems work. Routes are plain strings so they compare cheaply.
 const BASE_TITLE = document.title
-const routeFromHash = () => (window.location.hash.startsWith('#/pricing') ? 'pricing' : 'home')
+const routeFromHash = () => {
+  const h = window.location.hash
+  if (h.startsWith('#/pricing')) return 'pricing'
+  if (h.startsWith('#/about')) return 'about'
+  if (h.startsWith('#/platform')) {
+    const slug = h.slice('#/platform'.length).replace(/^\//, '').split(/[/?#]/)[0]
+    return slug ? `platform/${slug}` : 'platform'
+  }
+  if (h.startsWith('#/systems/')) {
+    const id = h.slice('#/systems/'.length).split(/[/?#]/)[0]
+    if (id) return `systems/${id}`
+  }
+  return 'home'
+}
+const systemId = (route) => (route.startsWith('systems/') ? route.slice('systems/'.length) : null)
+const platformSlug = (route) => (route.startsWith('platform/') ? route.slice('platform/'.length) : null)
 
 function HomePage() {
   return (
@@ -35,13 +58,12 @@ function HomePage() {
       <PeoplePills />
       <QuoteBand />
       <WordsSplit />
+      <WorkflowStages />
+      <ApproveSmarter />
       <Capabilities />
-      <Spotlight />
       <StatsBand />
       <HowItWorks />
-      <Testimonials />
       <Integrations />
-      <Faq />
       <CtaBand />
     </>
   )
@@ -83,7 +105,16 @@ export default function App() {
   }, [route])
 
   useEffect(() => {
-    document.title = route === 'pricing' ? 'Pricing · Bishnoi One' : BASE_TITLE
+    document.title =
+      route === 'pricing'
+        ? 'Pricing · Bishnoi One'
+        : route === 'about'
+          ? 'About · Bishnoi One'
+          : route.startsWith('platform')
+          ? platformTitle(platformSlug(route))
+          : route.startsWith('systems/')
+          ? systemTitle(systemId(route))
+          : BASE_TITLE
   }, [route])
 
   return (
@@ -92,7 +123,19 @@ export default function App() {
         Skip to content
       </a>
       <Navbar />
-      <main id="main">{route === 'pricing' ? <PricingPage /> : <HomePage />}</main>
+      <main id="main">
+        {route === 'pricing' ? (
+          <PricingPage />
+        ) : route === 'about' ? (
+          <AboutPage />
+        ) : route.startsWith('platform') ? (
+          <PlatformPage key={route} slug={platformSlug(route)} />
+        ) : route.startsWith('systems/') ? (
+          <SystemPage key={route} id={systemId(route)} />
+        ) : (
+          <HomePage />
+        )}
+      </main>
       <Footer />
     </>
   )

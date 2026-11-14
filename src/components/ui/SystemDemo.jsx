@@ -35,11 +35,24 @@ const Av = ({ k }) => (
   </span>
 )
 
-// Plain stat card: label and value on a soft gradient in its tone.
-const Kpi = ({ label, value, t, tone = 'orange', hot }) => (
-  <div className={`sd__kpi ${hot ? 'is-hot' : ''}`} data-t={t} data-tone={tone}>
-    <em>{label}</em>
-    <b key={value}>{value}</b>
+/* Small extra table under each board: a header row in the group colour,
+   then [title, sub, owner, middle, chip tone, chip label] rows. */
+const MiniTable = ({ title, grp, cols, head, rows }) => (
+  <div className="sd__table" style={{ '--cols': cols, '--grp': grp }}>
+    <div className="sd__tr sd__th">
+      <span className="sd__grp">{title}</span>
+      <span>Owner</span>
+      <span>{head}</span>
+      <span>Status</span>
+    </div>
+    {rows.map(([name, sub, who, mid, tone, label]) => (
+      <div key={name} className="sd__tr">
+        <span><b>{name}</b>{sub ? <small>{sub}</small> : null}</span>
+        <span><Av k={who} /></span>
+        <span>{mid}</span>
+        <span><Chip tone={tone}>{label}</Chip></span>
+      </div>
+    ))}
   </div>
 )
 
@@ -56,7 +69,6 @@ const SCENES = {
       [
         { to: 'r0', fx: 0.3, wait: 250 },
         { to: 'reorder', click: 1, set: { ordered: 1, msg: 'PO-2041 sent to MedSupply Co.' }, wait: 1700 },
-        { to: 'kpi-low', wait: 600 },
       ],
       [
         { wait0: 1700 },
@@ -67,11 +79,6 @@ const SCENES = {
     ],
     View: ({ st }) => (
       <>
-        <div className="sd__kpis">
-          <Kpi label="Items" value="1,284" tone="blue" />
-          <Kpi label="Low stock" value={st.ordered ? '2' : '3'} t="kpi-low" tone="red" hot />
-          <Kpi label="Incoming units" value={st.ordered ? '320' : '120'} tone="green" />
-        </div>
         <div className="sd__table" style={{ '--cols': '1.7fr 46px 1fr 0.95fr 68px', '--grp': '#5a6dff' }}>
           <div className="sd__tr sd__th">
             <span className="sd__grp">Pharmacy stock</span>
@@ -116,6 +123,16 @@ const SCENES = {
             <span />
           </div>
         </div>
+        <MiniTable
+          title="Purchase orders"
+          grp="#f36b21"
+          cols="1.7fr 46px 1fr 1fr"
+          head="Units"
+          rows={[
+            ['PO-2041', 'MedSupply Co.', 'mark', st.ordered ? '200' : '—', st.ordered ? 'blue' : undefined, st.ordered ? 'Sent' : 'Draft'],
+            ['PO-2038', 'PharmaHub', 'joshua', '220', 'yellow', 'In transit'],
+          ]}
+        />
       </>
     ),
   },
@@ -147,11 +164,6 @@ const SCENES = {
       const cols = { '--cols': '1.6fr 46px 0.8fr 1fr 62px' }
       return (
         <>
-          <div className="sd__kpis">
-            <Kpi label="Headcount" value="42" tone="blue" />
-            <Kpi label="On leave today" value={st.approved ? '4' : '3'} tone="yellow" />
-            <Kpi label="Open roles" value="4" tone="orange" />
-          </div>
           <div className="sd__table" style={{ ...cols, '--grp': '#3e8e2d' }}>
             <div className="sd__tr sd__th">
               <span className="sd__grp">Ria Santos · onboarding</span>
@@ -195,6 +207,15 @@ const SCENES = {
               <span />
             </div>
           </div>
+          <MiniTable
+            title="Performance reviews"
+            grp="#f36b21"
+            cols="1.6fr 46px 0.8fr 1fr"
+            head="Due"
+            rows={[
+              ['Carlo Mendoza', 'Sales · Q4', 'kate', 'Dec 8', 'yellow', 'In review'],
+            ]}
+          />
         </>
       )
     },
@@ -233,11 +254,6 @@ const SCENES = {
       const cols = [['qual', 'Qualified'], ['prop', 'Proposal'], ['won', 'Won']]
       return (
         <>
-        <div className="sd__kpis">
-          <Kpi label="Open pipeline" value={st.acme === 'won' ? '₱316k' : '₱436k'} tone="orange" />
-          <Kpi label="Win rate" value={st.acme === 'won' ? '41%' : '38%'} tone="green" />
-          <Kpi label="Won this month" value={st.acme === 'won' ? '₱208k' : '₱88k'} tone="blue" />
-        </div>
         <div className="sd__cols">
           {cols.map(([key, label]) => {
             const list = deals.filter((d) => d.col === key)
@@ -262,6 +278,16 @@ const SCENES = {
             )
           })}
         </div>
+        <MiniTable
+          title="Next follow-ups"
+          grp="#5a6dff"
+          cols="1.6fr 46px 0.9fr 1fr"
+          head="When"
+          rows={[
+            ['North Hospital', 'Send revised quote', 'kate', 'Today', 'red', 'Due today'],
+            ['Zen Clinic', 'Product demo', 'joshua', 'Thu', 'blue', 'Booked'],
+          ]}
+        />
         </>
       )
     },
@@ -290,11 +316,6 @@ const SCENES = {
       const labels = month ? ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
       return (
         <>
-          <div className="sd__kpis">
-            <Kpi label="Revenue" value={month ? '₱7.4M' : '₱1.8M'} tone="orange" />
-            <Kpi label="Orders" value={month ? '1,326' : '312'} tone="blue" />
-            <Kpi label="New customers" value={month ? '84' : '19'} tone="green" />
-          </div>
           <div className="sd__chart">
             <div className="sd__chart-head">
               <b>Sales</b>
@@ -316,6 +337,16 @@ const SCENES = {
               ))}
             </div>
           </div>
+          <MiniTable
+            title="Top products"
+            grp="#3e8e2d"
+            cols="1.6fr 46px 0.9fr 1fr"
+            head="Sales"
+            rows={[
+              ['Paracetamol 500mg', 'Pharmacy', 'mark', month ? '₱1.9M' : '₱460k', 'green', '▲ 12%'],
+              ['Vitamin C 1000mg', 'Wellness', 'jane', month ? '₱1.1M' : '₱270k', 'yellow', '▼ 3%'],
+            ]}
+          />
         </>
       )
     },
@@ -335,17 +366,11 @@ const SCENES = {
       ],
       [
         { wait0: 1900 },
-        { to: 'pay', click: 1, set: { paid: 1, msg: 'Payment matched to INV-1043' }, wait: 600 },
-        { to: 'kpi-recv', wait: 700 },
+        { to: 'pay', click: 1, set: { paid: 1, msg: 'Payment matched to INV-1043' }, wait: 1300 },
       ],
     ],
     View: ({ st }) => (
       <>
-        <div className="sd__kpis">
-          <Kpi label="Receivables" value={st.paid ? '₱61,000' : '₱79,400'} tone="blue" />
-          <Kpi label="Received this week" value={st.paid ? '₱60,400' : '₱42,000'} t="kpi-recv" tone="green" />
-          <Kpi label="Overdue" value="₱36,200" tone="red" hot />
-        </div>
         <div className="sd__table" style={{ '--cols': '1.4fr 46px 0.9fr 0.85fr 88px', '--grp': '#3e8e2d' }}>
           <div className="sd__tr sd__th">
             <span className="sd__grp">This month</span>
@@ -383,6 +408,16 @@ const SCENES = {
             <span />
           </div>
         </div>
+        <MiniTable
+          title="Bills to pay"
+          grp="#5a6dff"
+          cols="1.4fr 46px 0.9fr 1fr"
+          head="Amount"
+          rows={[
+            ['BILL-211', 'PharmaHub', 'angel', '₱31,500', 'yellow', 'Due Mon'],
+            ['BILL-210', 'City Power', 'mark', '₱8,900', 'green', 'Scheduled'],
+          ]}
+        />
       </>
     ),
   },
@@ -414,11 +449,6 @@ const SCENES = {
       const cols = { '--cols': '1.2fr 46px 1.5fr 0.9fr 62px' }
       return (
         <>
-          <div className="sd__kpis">
-            <Kpi label="Budget used" value={st.approved ? '66%' : '64%'} tone="orange" />
-            <Kpi label="Spend this month" value="₱1.2M" tone="blue" />
-            <Kpi label="Cash runway" value="13 wks" tone="green" />
-          </div>
           <div className="sd__table" style={{ ...cols, '--grp': '#f36b21' }}>
             <div className="sd__tr sd__th">
               <span className="sd__grp">Q4 budgets</span>
@@ -456,6 +486,16 @@ const SCENES = {
               <span><span className={`sd__btn ${st.approved ? 'is-done' : ''}`} data-t="approve">{st.approved ? 'Done' : 'Approve'}</span></span>
             </div>
           </div>
+          <MiniTable
+            title="Cash flow · this week"
+            grp="#3e8e2d"
+            cols="1.2fr 46px 1.5fr 0.9fr"
+            head="Amount"
+            rows={[
+              ['Money in', 'Customer payments', 'jane', '₱860,000', 'green', 'Healthy'],
+              ['Money out', 'Payroll + suppliers', 'mark', '₱640,000', 'blue', 'Planned'],
+            ]}
+          />
         </>
       )
     },
@@ -489,11 +529,6 @@ const SCENES = {
       ]
       return (
         <>
-          <div className="sd__kpis">
-            <Kpi label="Files" value="2,418" tone="blue" />
-            <Kpi label="Storage used" value="64%" tone="orange" />
-            <Kpi label="Shared this week" value={st.shared ? '38' : '37'} tone="green" />
-          </div>
           <div className="sd__folders">
             {folders.map(([t, name, count, color]) => (
               <div key={t} className={`sd__folder ${t === 'f-contracts' && st.hot ? 'is-hot' : ''}`} data-t={t} style={{ '--f': color }}>
@@ -525,6 +560,16 @@ const SCENES = {
               <span />
             </div>
           </div>
+          <MiniTable
+            title="Waiting for approval"
+            grp="#5a6dff"
+            cols="1.9fr 46px 0.8fr 1fr"
+            head="Size"
+            rows={[
+              ['NDA · LabOne.pdf', 'Contracts', 'kate', '1.2 MB', 'yellow', 'Needs sign-off'],
+              ['Q4 price update.xlsx', 'Price lists', 'joshua', '340 KB', 'green', 'Approved'],
+            ]}
+          />
         </>
       )
     },
@@ -551,11 +596,6 @@ const SCENES = {
     ],
     View: ({ st }) => (
       <>
-        <div className="sd__kpis">
-          <Kpi label="Open tickets" value={st.solved ? '11' : '12'} tone="red" />
-          <Kpi label="First reply" value="18 min" tone="blue" />
-          <Kpi label="Happy customers" value="96%" tone="green" />
-        </div>
       <div className="sd__desk">
         <div className="sd__tickets">
           <div className={`sd__ticket ${st.open === 0 ? 'is-on' : ''}`} data-t="t0">
@@ -595,6 +635,16 @@ const SCENES = {
           )}
         </div>
       </div>
+      <MiniTable
+        title="SLA watch"
+        grp="#fd4040"
+        cols="1.6fr 46px 0.9fr 1fr"
+        head="Time left"
+        rows={[
+          ['#2078 · Refund request', 'MegaDrug', 'mark', '25 min', 'red', 'At risk'],
+          ['#2077 · Login help', 'LabOne', 'angel', '3 h', 'green', 'On track'],
+        ]}
+      />
       </>
     ),
   },

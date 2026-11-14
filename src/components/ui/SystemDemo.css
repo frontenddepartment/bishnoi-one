@@ -3,6 +3,8 @@
    ========================================================================== */
 
 .sd {
+  /* Softer, lighter black for all dark text inside the boards */
+  --ink-900: #3a4540;
   font-family: 'Poppins', var(--font-body);
   position: relative;
   z-index: 1;
@@ -253,7 +255,7 @@
 
 .sd h6 {
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-900);
 }
 
@@ -553,7 +555,7 @@
   background: #fff;
   box-shadow: 0 0 0 1px var(--ink-100), 0 1px 2px rgba(0, 0, 0, 0.05);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-900);
   animation: sd-pop 0.4s var(--ease-out);
 }
@@ -614,7 +616,7 @@
 .sd__seg .is-on {
   background: #fff;
   color: var(--ink-900);
-  font-weight: 600;
+  font-weight: 500;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
@@ -763,6 +765,7 @@
 
 .sd__ticket b {
   font-size: 11.5px;
+  font-weight: 500;
   color: var(--ink-900);
 }
 
@@ -934,7 +937,7 @@
   background: #fff;
   box-shadow: 0 0 0 1px var(--ink-100), 0 12px 24px rgba(0, 0, 0, 0.18);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-900);
   white-space: nowrap;
   transform: rotate(-3deg);
@@ -1032,4 +1035,10 @@
 
 .sd__table + .sd__table {
   margin-top: 4px;
+}
+
+/* Bold text inside the boards stays medium weight */
+.sd b,
+.sd strong {
+  font-weight: 500;
 }

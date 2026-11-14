@@ -1,0 +1,276 @@
+/* ==========================================================================
+   Workflow stages — giant staggered headline + four stepped stage columns
+   ========================================================================== */
+
+.wfs {
+  position: relative;
+  overflow: hidden;
+  padding: var(--section-y) 0;
+  background: #fff;
+  color: #0d0d0d;
+}
+
+/* Soft colour blooms behind the headline */
+.wfs__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.wfs__glow--a {
+  width: 46vw;
+  height: 46vw;
+  top: -12vw;
+  right: -8vw;
+  background: radial-gradient(circle, rgba(111, 191, 143, 0.32) 0%, rgba(111, 191, 143, 0) 70%);
+}
+
+.wfs__glow--b {
+  width: 40vw;
+  height: 40vw;
+  top: 14vw;
+  left: -14vw;
+  background: radial-gradient(circle, rgba(249, 160, 63, 0.2) 0%, rgba(249, 160, 63, 0) 70%);
+}
+
+/* Lavender circle at the centre — same colour as the "Approve exceptions" pill */
+.wfs__glow--c {
+  width: clamp(420px, 60vw, 900px);
+  aspect-ratio: 1;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(40px);
+  background: radial-gradient(circle, rgba(201, 207, 255, 0.85) 0%, rgba(201, 207, 255, 0.45) 40%, rgba(201, 207, 255, 0) 70%);
+}
+
+.wfs__inner {
+  position: relative;
+}
+
+/* --- Headline ------------------------------------------------------------ */
+.wfs__title {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 clamp(2.5rem, 5vw, 4.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 0.9rem + 5.2vw, 6rem);
+  font-weight: var(--fw-heading);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.wfs__line {
+  display: block;
+  opacity: 0;
+  transform: translateY(40%);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--i) * 0.12s);
+}
+
+.wfs__line--1,
+.wfs__line--2 {
+  padding-left: 18%;
+}
+
+.wfs__line--3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.3em;
+}
+
+.wfs__accent {
+  color: var(--orbit-blue-600);
+}
+
+.wfs.is-in .wfs__line {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Stages -------------------------------------------------------------- */
+.wfs__stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wfs__stage {
+  position: relative;
+  /* Each stage steps further down, like a timeline descending to the right */
+  margin-top: calc(var(--i) * clamp(2rem, 5vw, 4.5rem));
+  padding: 0 clamp(0.75rem, 2vw, 1.75rem) 0 clamp(0.75rem, 1.6vw, 1.5rem);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: calc(0.35s + var(--i) * 0.15s);
+}
+
+.wfs__stage:first-child {
+  padding-left: 0;
+}
+
+/* Dashed divider running down from each column after the first */
+.wfs__stage + .wfs__stage::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  bottom: -100vh;
+  border-left: 1px dashed rgba(13, 13, 13, 0.18);
+}
+
+.wfs.is-in .wfs__stage {
+  opacity: 1;
+  transform: none;
+}
+
+.wfs__label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.2rem);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.wfs__marker {
+  flex: none;
+  width: 2.25rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wfs__items {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wfs__pill {
+  padding: 0.5rem 1.1rem;
+  border: 1px solid rgba(13, 13, 13, 0.08);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.85);
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  color: #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.wfs__pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+}
+
+.wfs__pill--blue {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue);
+  color: #fff;
+}
+
+.wfs__pill--yellow {
+  border-color: var(--accent-yellow);
+  background: var(--accent-yellow);
+  color: #1a1a1a;
+}
+
+.wfs__pill--red {
+  border-color: var(--accent-red);
+  background: var(--accent-red);
+  color: #fff;
+}
+
+.wfs__pill--green {
+  border-color: var(--accent-green);
+  background: var(--accent-green);
+  color: #fff;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+@media (max-width: 900px) {
+  .wfs__stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 2.5rem;
+  }
+
+  .wfs__stage {
+    margin-top: 0;
+  }
+
+  .wfs__stage:nth-child(even) {
+    margin-top: 2rem;
+  }
+
+  .wfs__stage:nth-child(odd) {
+    padding-left: 0;
+  }
+
+  .wfs__stage:nth-child(odd)::before {
+    display: none;
+  }
+
+  .wfs__stage + .wfs__stage::before {
+    bottom: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .wfs__line--1,
+  .wfs__line--2 {
+    padding-left: 8%;
+  }
+
+  .wfs__line--3 {
+    flex-direction: column;
+  }
+
+  .wfs__stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wfs__stage,
+  .wfs__stage:nth-child(odd) {
+    margin-top: 0;
+    padding: 0 0 0 1rem;
+  }
+
+  .wfs__stage::before,
+  .wfs__stage + .wfs__stage::before,
+  .wfs__stage:nth-child(odd)::before {
+    display: block;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed rgba(13, 13, 13, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wfs__line,
+  .wfs__stage,
+  .wfs__pill {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -195,3 +195,16 @@
     border-top: 1px dashed var(--ink-100);
   }
 }
+
+/* Compact, white version of the section */
+.quotes {
+  background: #fff;
+}
+
+.quotes .quotes__stage {
+  margin-top: var(--sp-6);
+}
+
+.quotes .quotes__card {
+  padding: clamp(2.25rem, 1.25rem + 2.4vw, 3rem) clamp(1.5rem, 1rem + 2.5vw, 3rem) clamp(1.25rem, 0.8rem + 1.4vw, 1.75rem);
+}

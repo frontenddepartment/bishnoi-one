@@ -164,7 +164,7 @@ export const products = [
 export const systems = [
   { id: 'inventory', name: 'Inventory', logo: '/Inventory.png', href: '#showcase-inventory', blurb: 'Stock, orders and fulfilment in one place' },
   { id: 'people', name: 'People', logo: '/People.png', href: '#showcase-people', blurb: 'Employee records, onboarding and time off' },
-  { id: 'crm', name: 'CRM', logo: '/CRM.png', href: '#showcase-crm', blurb: 'Contacts, pipeline and revenue forecasting' },
+  { id: 'crm', name: 'CRM', logo: '/CRM.png', href: '#/systems/crm', blurb: 'Contacts, pipeline and revenue forecasting' },
   { id: 'analytics', name: 'Analytics', logo: '/Analytics.png', href: '#showcase-analytics', blurb: 'Live dashboards and reports across every system' },
   { id: 'books', name: 'Books', logo: '/Books.png', href: '#showcase-books', blurb: 'Invoices, bills and day-to-day bookkeeping' },
   { id: 'finance', name: 'Finance', logo: '/Finance.png', href: '#showcase-finance', blurb: 'Budgets, cash flow and financial planning' },
@@ -173,12 +173,12 @@ export const systems = [
 ]
 
 export const platformMenu = [
-  { icon: 'automation', grad: ['#e57a44', '#251351'], title: 'Automations', blurb: 'If this happens, Bishnoi One does that. No code.' },
-  { icon: 'chart', grad: ['#02c3bd', '#4e148c'], title: 'Dashboards', blurb: 'Live numbers your leadership team trusts.' },
-  { icon: 'sparkle', grad: ['#ffc145', '#ec368d'], title: 'Bishnoi One AI', blurb: 'Drafts, summaries and next-step suggestions.' },
-  { icon: 'puzzle', grad: ['#414288', '#b0db43'], title: 'Integrations', blurb: '200+ tools connected in a couple of clicks.' },
-  { icon: 'shield', grad: ['#007cbe', '#5fd3c4'], title: 'Security', blurb: 'SOC 2 Type II, SSO and regional data storage.' },
-  { icon: 'globe', grad: ['#629460', '#f4d35e'], title: 'Bishnoi One Mobile', blurb: 'The whole platform, in a pocket-sized app.' },
+  { icon: 'automation', grad: ['#e57a44', '#251351'], title: 'Automations', slug: 'automations', blurb: 'If this happens, Bishnoi One does that. No code.' },
+  { icon: 'chart', grad: ['#02c3bd', '#4e148c'], title: 'Dashboards', slug: 'dashboards', blurb: 'Live numbers your leadership team trusts.' },
+  { icon: 'sparkle', grad: ['#ffc145', '#ec368d'], title: 'Bishnoi One AI', slug: 'ai', blurb: 'Drafts, summaries and next-step suggestions.' },
+  { icon: 'puzzle', grad: ['#414288', '#b0db43'], title: 'Integrations', slug: 'integrations', blurb: '200+ tools connected in a couple of clicks.' },
+  { icon: 'shield', grad: ['#007cbe', '#5fd3c4'], title: 'Security', slug: 'security', blurb: 'SOC 2 Type II, SSO and regional data storage.' },
+  { icon: 'globe', grad: ['#629460', '#f4d35e'], title: 'Bishnoi One Mobile', slug: 'mobile', blurb: 'The whole platform, in a pocket-sized app.' },
 ]
 
 export const solutionsMenu = [
@@ -443,7 +443,7 @@ export const footerColumns = [
   {
     title: 'Company',
     links: [
-      ['About us', 'info'],
+      ['About us', 'info', '#/about'],
       ['Careers', 'briefcase'],
       ['Press', 'news'],
       ['Partners', 'link'],

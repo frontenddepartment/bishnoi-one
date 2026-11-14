@@ -1,0 +1,711 @@
+/* ==========================================================================
+   Analytics visuals: LiveDashboard and AskDemo (see AnalyticsViz.jsx)
+   ========================================================================== */
+
+.lv,
+.lv-ask {
+  /* Chart roles. Categorical slots 1-4 from the dataviz reference palette
+     (light, validated on #fff); status colours are reserved for state. */
+  --viz-1: #2a78d6;
+  --viz-2: #eb6834;
+  --viz-3: #1baf7a;
+  --viz-4: #eda100;
+  --viz-prev: #9b9a95;
+  --viz-good: #1baf7a;
+  --viz-warning: #eda100;
+  --viz-critical: #e34948;
+  --viz-grid: #ecebe8;
+  text-align: left;
+}
+
+/* --- Frame ---------------------------------------------------------------- */
+.lv {
+  border: 1px solid var(--ink-100);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+}
+
+.lv__bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--ink-100);
+}
+
+.lv__dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.lv__dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink-200);
+}
+
+.lv__tabs {
+  display: flex;
+  gap: 0.25rem;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lv__tabs button {
+  flex: none;
+  padding: 0.4rem 0.85rem;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+
+.lv__tabs button:hover {
+  color: var(--ink-900);
+}
+
+.lv__tabs button.is-active {
+  background: var(--ink-900);
+  color: #fff;
+}
+
+.lv__live {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-500);
+}
+
+.lv__live i {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--viz-good);
+}
+
+.lv__live i::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--viz-good);
+  animation: lv-ping 1.8s var(--ease-out) infinite;
+}
+
+.lv__body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  background: var(--ink-50);
+  animation: lv-in 0.45s var(--ease-out) both;
+}
+
+/* --- KPI tiles ------------------------------------------------------------ */
+.lv-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.lv-kpi {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 14px;
+  background: #fff;
+  animation: lv-in 0.5s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+.lv-kpi__label {
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.lv-kpi__value {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 0.9rem + 1vw, 1.65rem);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+
+.lv-kpi__delta {
+  font-size: 0.72rem;
+  font-weight: var(--fw-medium);
+}
+
+.lv-kpi__delta.is-up {
+  color: var(--accent-green-ink);
+}
+
+.lv-kpi__delta.is-down {
+  color: var(--accent-red-ink);
+}
+
+/* --- Cards ---------------------------------------------------------------- */
+.lv-grid-a {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.lv-grid-b {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 0.75rem;
+}
+
+.lv-card {
+  padding: 1rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.lv-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.lv-card__head b {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.lv-legend {
+  display: flex;
+  gap: 0.9rem;
+  font-size: var(--fs-xs);
+  color: var(--ink-500);
+}
+
+.lv-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.lv-key {
+  display: inline-block;
+  width: 14px;
+  height: 0;
+  border-top: 2px solid var(--viz-1);
+}
+
+.lv-key--dash {
+  border-top: 2px dashed var(--viz-prev);
+}
+
+/* --- Line chart ----------------------------------------------------------- */
+.lv-line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: 170px auto;
+  column-gap: 0.6rem;
+}
+
+.lv-line__y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: -0.4rem 0;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--ink-400);
+}
+
+.lv-line__plot {
+  position: relative;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+.lv-line__plot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.lv-grid {
+  stroke: var(--viz-grid);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.lv-cur,
+.lv-prev {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: d 0.6s var(--ease-out);
+}
+
+.lv-cur {
+  stroke: var(--viz-1);
+  stroke-dasharray: 1000;
+  animation: lv-draw 1.4s var(--ease-out) both;
+}
+
+/* Non-scaling strokes measure dashes in screen pixels, so a long dash covers the
+   whole line for the draw-in; once drawn, drop the dash entirely. */
+@keyframes lv-draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+    stroke-dasharray: none;
+  }
+}
+
+.lv-prev {
+  stroke: var(--viz-prev);
+  stroke-dasharray: 4 4;
+}
+
+.lv-line__x {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  font-size: 0.68rem;
+  color: var(--ink-400);
+}
+
+.lv-dot {
+  position: absolute;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--viz-1);
+  transform: translate(-50%, -50%);
+  transition: top 0.6s var(--ease-out);
+  pointer-events: none;
+}
+
+.lv-dot--prev {
+  background: var(--viz-prev);
+}
+
+.lv-dot--live::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--viz-1);
+  animation: lv-ping 1.8s var(--ease-out) infinite;
+}
+
+.lv-cross {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink-200);
+  pointer-events: none;
+}
+
+.lv-tip {
+  position: absolute;
+  top: 0.25rem;
+  z-index: 3;
+  display: grid;
+  gap: 0.2rem;
+  min-width: 120px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--ink-100);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--sh-md);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-700);
+  transform: translateX(12px);
+  pointer-events: none;
+}
+
+.lv-tip.is-left {
+  transform: translateX(calc(-100% - 12px));
+}
+
+.lv-tip b {
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.lv-tip span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* --- Ranked bars ---------------------------------------------------------- */
+.lv-bars {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lv-bars li {
+  display: grid;
+  grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: var(--fs-xs);
+}
+
+.lv-bars__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-700);
+}
+
+.lv-bars__track {
+  height: 8px;
+}
+
+.lv-bars__track span {
+  display: block;
+  width: var(--w);
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background: var(--viz-1);
+  transition: width 0.6s var(--ease-out), opacity 0.2s;
+  animation: lv-grow 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 70ms + 200ms);
+}
+
+.lv-bars li:hover .lv-bars__track span {
+  opacity: 0.75;
+}
+
+.lv-bars__value {
+  min-width: 3.5rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--ink-900);
+}
+
+/* --- Mix (segmented bar) -------------------------------------------------- */
+.lv-mix {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+}
+
+.lv-mix span {
+  flex: var(--w) 1 0;
+  min-width: 4px;
+  transform-origin: left;
+  animation: lv-grow-x 0.8s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 80ms + 200ms);
+}
+
+.lv-mix span:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.lv-mix span:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.lv-mix__note {
+  display: block;
+  margin: -0.25rem 0 0.85rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+}
+
+.lv-mix__note small {
+  margin-left: 0.4rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  letter-spacing: 0;
+  color: var(--ink-500);
+}
+
+.lv-mix__legend {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-xs);
+  color: var(--ink-700);
+}
+
+.lv-mix__legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.lv-mix__legend i {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.lv-mix__legend b {
+  margin-left: auto;
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-900);
+}
+
+/* --- Activity feed -------------------------------------------------------- */
+.lv-feed {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lv-feed li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ink-100);
+  font-size: var(--fs-xs);
+  animation: lv-in 0.5s var(--ease-out) both;
+}
+
+.lv-feed li:last-child {
+  border-bottom: 0;
+}
+
+.lv-feed img {
+  flex: none;
+  object-fit: contain;
+}
+
+.lv-feed__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  color: var(--ink-900);
+}
+
+.lv-feed__text small {
+  color: var(--ink-400);
+}
+
+.lv-feed__value {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-500);
+}
+
+/* --- Ask in plain words --------------------------------------------------- */
+.lv-ask {
+  display: grid;
+  gap: 1rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.lv-ask__box {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 3.75rem;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--ink-200);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--sh-md);
+}
+
+.lv-ask__spark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--viz-1), var(--viz-3));
+  color: #fff;
+}
+
+.lv-ask__q {
+  font-size: var(--fs-body);
+  color: var(--ink-900);
+}
+
+.lv-ask__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--viz-1);
+  animation: lv-blink 1s steps(1) infinite;
+}
+
+.lv-ask__answer {
+  min-height: 16rem;
+}
+
+.lv-ask__answer.is-on {
+  animation: lv-in 0.5s var(--ease-out) both;
+}
+
+.lv-ask__answer p {
+  margin: 0 0 0.85rem;
+  padding-left: 0.25rem;
+  line-height: var(--lh-body);
+  color: var(--ink-700);
+}
+
+.lv-ask__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+}
+
+.lv-ask__chips button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--ink-200);
+  border-radius: var(--r-pill);
+  background: #fff;
+  font: inherit;
+  font-size: var(--fs-xs);
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.lv-ask__chips button:hover {
+  border-color: var(--ink-400);
+}
+
+.lv-ask__chips button.is-active {
+  border-color: var(--viz-1);
+  color: var(--ink-900);
+}
+
+/* --- Motion --------------------------------------------------------------- */
+@keyframes lv-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes lv-grow {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes lv-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes lv-ping {
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes lv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lv *,
+  .lv-ask * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+@media (max-width: 860px) {
+  .lv-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lv-grid-a,
+  .lv-grid-b {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lv__live {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .lv__dots {
+    display: none;
+  }
+
+  .lv__body {
+    padding: 0.6rem;
+    gap: 0.6rem;
+  }
+
+  .lv-kpi {
+    padding: 0.75rem;
+  }
+
+  .lv-line {
+    grid-template-rows: 140px auto;
+  }
+
+  .lv-line__x span:nth-child(even) {
+    display: none;
+  }
+
+  .lv-bars li {
+    grid-template-columns: minmax(0, 5.5rem) minmax(0, 1fr) auto;
+  }
+}

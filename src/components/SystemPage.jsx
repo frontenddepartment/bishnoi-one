@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Icon from './ui/Icon.jsx'
 import Reveal from './ui/Reveal.jsx'
+import { LiveDashboard, AskDemo } from './ui/AnalyticsViz.jsx'
 import CtaBand from './CtaBand.jsx'
 import { JumpLink, SectionHead, Faq } from './PlatformPage.jsx'
 import { systemPage } from '../data/systemPages.js'
@@ -14,24 +15,33 @@ import './SystemPage.css'
 
 const systemOf = (id) => systems.find((s) => s.id === id)
 
-function Board({ columns }) {
+function Window({ title, children }) {
   return (
-    <div className="sp-board" aria-hidden="true">
-      <div className="sp-board__bar">
+    <div className="sp-window" aria-hidden="true">
+      <div className="sp-window__bar">
         <span />
         <span />
         <span />
-        <b>Sales pipeline</b>
+        <b>{title}</b>
       </div>
+      {children}
+    </div>
+  )
+}
+
+// Kanban of cards, e.g. a sales pipeline. The `done` column is shown in green.
+function Board({ title, done, columns }) {
+  return (
+    <Window title={title}>
       <div className="sp-board__cols">
-        {columns.map(([stage, deals], c) => (
+        {columns.map(([stage, cards], c) => (
           <div key={stage} className="sp-board__col" style={{ '--i': c }}>
             <div className="sp-board__head">
               {stage}
-              <small>{deals.length}</small>
+              <small>{cards.length}</small>
             </div>
-            {deals.map(([name, value, owner]) => (
-              <div key={name} className={`sp-deal ${stage === 'Won' ? 'is-won' : ''}`}>
+            {cards.map(([name, value, owner]) => (
+              <div key={name} className={`sp-deal ${stage === done ? 'is-won' : ''}`}>
                 <b>{name}</b>
                 <span className="sp-deal__row">
                   {value}
@@ -42,12 +52,89 @@ function Board({ columns }) {
           </div>
         ))}
       </div>
-    </div>
+    </Window>
   )
 }
 
+const STOCK_STATUS = { ok: 'In stock', low: 'Low stock', out: 'Reorder sent' }
+
+// Stock level table: one row per item with a fill bar against capacity.
+function Stock({ title, rows }) {
+  return (
+    <Window title={title}>
+      <div className="sp-stock">
+        <div className="sp-stock__row sp-stock__row--head">
+          <span>Item</span>
+          <span className="sp-stock__where">Location</span>
+          <span>On hand</span>
+          <span>Status</span>
+        </div>
+        {rows.map(([item, where, qty, cap, status], i) => (
+          <div key={item} className="sp-stock__row" style={{ '--i': i }}>
+            <b>{item}</b>
+            <span className="sp-stock__where">{where}</span>
+            <span className="sp-stock__qty">
+              <span className={`sp-stock__bar is-${status}`}>
+                <span style={{ '--fill': `${Math.round((qty / cap) * 100)}%` }} />
+              </span>
+              {qty.toLocaleString()}
+            </span>
+            <span className={`sp-pill is-${status}`}>{STOCK_STATUS[status]}</span>
+          </div>
+        ))}
+      </div>
+    </Window>
+  )
+}
+
+const TASK_STATUS = { done: 'Done', doing: 'In progress', todo: 'To do' }
+
+// New-hire card: who is starting, then the onboarding checklist with owners.
+function Onboarding({ title, person, tasks }) {
+  const done = tasks.filter((t) => t[2] === 'done').length
+  return (
+    <Window title={title}>
+      <div className="sp-onboard">
+        <div className="sp-onboard__person">
+          <span className="sp-onboard__avatar">{person.initials}</span>
+          <b>{person.name}</b>
+          <span>{person.role}</span>
+          <small>{person.start}</small>
+          <div className="sp-onboard__meter">
+            <span>
+              {done} of {tasks.length} tasks done
+            </span>
+            <span className="sp-onboard__track">
+              <span style={{ '--fill': `${Math.round((done / tasks.length) * 100)}%` }} />
+            </span>
+          </div>
+        </div>
+        <ul className="sp-onboard__tasks">
+          {tasks.map(([task, owner, status], i) => (
+            <li key={task} className={`is-${status}`} style={{ '--i': i }}>
+              <span className="sp-onboard__tick">{status === 'done' && <Icon name="check" size={12} />}</span>
+              <span className="sp-onboard__task">
+                <b>{task}</b>
+                <small>{owner}</small>
+              </span>
+              <span className={`sp-pill is-${status === 'done' ? 'ok' : status === 'doing' ? 'low' : 'idle'}`}>
+                {TASK_STATUS[status]}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Window>
+  )
+}
+
+// `wide` visuals get more room in the hero.
+const VISUALS = { board: Board, stock: Stock, onboarding: Onboarding, dashboard: LiveDashboard }
+const WIDE = new Set(['dashboard'])
+
 function Hero({ page, system }) {
   const { hero } = page
+  const Visual = VISUALS[hero.visual?.type]
   return (
     <section className="pf-hero sp-hero">
       <div className="pf-hero__glow" aria-hidden="true" />
@@ -72,9 +159,9 @@ function Hero({ page, system }) {
             {hero.secondary.label}
           </JumpLink>
         </Reveal>
-        {hero.board && (
-          <Reveal delay={320} className="sp-hero__visual">
-            <Board columns={hero.board} />
+        {Visual && (
+          <Reveal delay={320} className={`sp-hero__visual ${WIDE.has(hero.visual.type) ? 'sp-hero__visual--wide' : ''}`}>
+            <Visual {...hero.visual} />
           </Reveal>
         )}
       </div>
@@ -82,12 +169,12 @@ function Hero({ page, system }) {
   )
 }
 
-function Explainer({ data, name }) {
+function Explainer({ data }) {
   return (
     <section className="pf-section" id="what-is">
       <div className="shell sp-explain">
         <Reveal className="sp-explain__text">
-          <span className="pf-head__eyebrow">What is a {name}?</span>
+          <span className="pf-head__eyebrow">{data.eyebrow}</span>
           <h2>{data.title}</h2>
           {data.body.map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
@@ -106,6 +193,23 @@ function Explainer({ data, name }) {
             </Reveal>
           ))}
         </ul>
+      </div>
+    </section>
+  )
+}
+
+function Ask({ data }) {
+  return (
+    <section className="pf-section sp-ask" id="ask">
+      <div className="shell">
+        <Reveal className="pf-head sp-ask__head">
+          <span className="pf-head__eyebrow">{data.eyebrow}</span>
+          <h2>{data.title}</h2>
+          <p>{data.sub}</p>
+        </Reveal>
+        <Reveal delay={120}>
+          <AskDemo questions={data.questions} />
+        </Reveal>
       </div>
     </section>
   )
@@ -148,7 +252,7 @@ function Journey({ data }) {
     <section className="pf-section" id="journey">
       <div className="shell">
         <SectionHead eyebrow="How it works" title={data.title} />
-        <Reveal className="sp-journey">
+        <Reveal className="sp-journey" style={{ '--n': data.stages.length }}>
           <div className="sp-journey__tabs" role="tablist" aria-label="Customer journey" onKeyDown={onKey}>
             {data.stages.map((s, i) => (
               <button
@@ -201,7 +305,7 @@ function Connects({ data, name }) {
     <section className="pf-section pf-section--muted" id="connects">
       <div className="shell">
         <SectionHead eyebrow={`${name} + Bishnoi One`} title={data.title} />
-        <div className="sp-connects">
+        <div className="sp-connects" style={{ '--cols': data.items.length }}>
           {data.items.map(([id, body], i) => {
             const s = systemOf(id)
             return (
@@ -239,9 +343,17 @@ export default function SystemPage({ id }) {
     )
   }
   return (
-    <div className="page page--system">
+    <div
+      className="page page--system"
+      style={{
+        '--sp-accent': page.accent[0],
+        '--sp-accent-soft': page.accent[1],
+        '--sp-accent-ink': page.accent[2] ?? page.accent[0],
+      }}
+    >
       <Hero page={page} system={system} />
-      <Explainer data={page.explainer} name={page.title} />
+      <Explainer data={page.explainer} />
+      {page.ask && <Ask data={page.ask} />}
       <Highlights data={page.highlights} />
       <Journey data={page.journey} />
       <Connects data={page.connects} name={page.title} />

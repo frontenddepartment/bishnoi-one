@@ -4,6 +4,10 @@
    ========================================================================== */
 
 .page--system {
+  /* Per-page accent, set inline from systemPages.js; violet as a fallback. */
+  --sp-accent: var(--orbit-violet);
+  --sp-accent-soft: var(--orbit-violet-100);
+  --sp-accent-ink: var(--sp-accent);
   padding-top: var(--nav-h);
 }
 
@@ -17,8 +21,8 @@
   margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* --- Hero pipeline board ------------------------------------------------ */
-.sp-board {
+/* --- Hero visuals: shared window frame ---------------------------------- */
+.sp-window {
   border: 1px solid var(--ink-100);
   border-radius: 20px;
   background: #fff;
@@ -27,7 +31,7 @@
   text-align: left;
 }
 
-.sp-board__bar {
+.sp-window__bar {
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -35,14 +39,14 @@
   border-bottom: 1px solid var(--ink-100);
 }
 
-.sp-board__bar span {
+.sp-window__bar span {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: var(--ink-200);
 }
 
-.sp-board__bar b {
+.sp-window__bar b {
   margin-left: 0.6rem;
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
@@ -88,7 +92,7 @@
   gap: 0.45rem;
   padding: 0.75rem 0.8rem;
   border: 1px solid var(--ink-100);
-  border-left: 3px solid var(--orbit-violet);
+  border-left: 3px solid var(--sp-accent);
   border-radius: 10px;
   background: #fff;
   animation: sp-rise 0.6s var(--ease-out) both;
@@ -119,11 +123,261 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--orbit-violet-100);
+  background: var(--sp-accent-soft);
   font-size: 0.62rem;
   font-style: normal;
   font-weight: var(--fw-medium);
-  color: var(--orbit-violet);
+  color: var(--sp-accent-ink);
+}
+
+/* --- Hero visual: stock table ------------------------------------------- */
+.sp-stock {
+  padding: 0.5rem 1rem 0.75rem;
+  background: #fff;
+}
+
+.sp-stock__row {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.2fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem 0.4rem;
+  border-bottom: 1px solid var(--ink-100);
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+  animation: sp-rise 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 400ms);
+}
+
+.sp-stock__row:last-child {
+  border-bottom: 0;
+}
+
+.sp-stock__row--head {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--ink-400);
+  animation: none;
+}
+
+.sp-stock__row b {
+  overflow: hidden;
+  font-weight: var(--fw-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-900);
+}
+
+.sp-stock__qty {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-700);
+}
+
+.sp-stock__bar {
+  flex: 1;
+  max-width: 90px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--ink-100);
+  overflow: hidden;
+}
+
+.sp-stock__bar span {
+  display: block;
+  width: var(--fill);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sp-accent);
+  animation: sp-fill 1s var(--ease-out) both;
+  animation-delay: 600ms;
+}
+
+.sp-stock__bar.is-low span {
+  background: var(--accent-yellow);
+}
+
+.sp-stock__bar.is-out span {
+  background: var(--accent-red);
+}
+
+.sp-pill {
+  justify-self: start;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+.sp-pill.is-ok {
+  background: var(--accent-green-100);
+  color: var(--accent-green-ink);
+}
+
+.sp-pill.is-low {
+  background: var(--accent-yellow-100);
+  color: var(--accent-yellow-ink);
+}
+
+.sp-pill.is-idle {
+  background: var(--ink-50);
+  color: var(--ink-500);
+}
+
+.sp-pill.is-out {
+  background: var(--accent-red-100);
+  color: var(--accent-red-ink);
+}
+
+/* --- Hero visual: onboarding card --------------------------------------- */
+.sp-onboard {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr);
+  background: #fff;
+}
+
+.sp-onboard__person {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 1.5rem;
+  border-right: 1px solid var(--ink-100);
+  background: var(--ink-50);
+  font-size: var(--fs-sm);
+  color: var(--ink-500);
+}
+
+.sp-onboard__avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 0.75rem;
+  border-radius: 50%;
+  background: var(--sp-accent);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.sp-onboard__person b {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--ink-900);
+}
+
+.sp-onboard__person small {
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-pill);
+  background: var(--sp-accent-soft);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--sp-accent-ink);
+}
+
+.sp-onboard__meter {
+  display: grid;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  font-size: var(--fs-xs);
+}
+
+.sp-onboard__track {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--ink-100);
+  overflow: hidden;
+}
+
+.sp-onboard__track span {
+  display: block;
+  width: var(--fill);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sp-accent);
+  animation: sp-fill 1s var(--ease-out) both;
+  animation-delay: 600ms;
+}
+
+.sp-onboard__tasks {
+  margin: 0;
+  padding: 0.5rem 1.25rem;
+  list-style: none;
+}
+
+.sp-onboard__tasks li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--ink-100);
+  animation: sp-rise 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 400ms);
+}
+
+.sp-onboard__tasks li:last-child {
+  border-bottom: 0;
+}
+
+.sp-onboard__tick {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--ink-200);
+  border-radius: 50%;
+  color: #fff;
+}
+
+.is-done .sp-onboard__tick {
+  border-color: var(--accent-green);
+  background: var(--accent-green);
+}
+
+.is-doing .sp-onboard__tick {
+  border-color: var(--accent-yellow);
+  border-style: dashed;
+}
+
+.sp-onboard__task {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 0.1rem;
+}
+
+.sp-onboard__task b {
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-900);
+}
+
+.is-done .sp-onboard__task b {
+  color: var(--ink-500);
+}
+
+.sp-onboard__task small {
+  font-size: var(--fs-xs);
+  color: var(--ink-400);
+}
+
+@keyframes sp-fill {
+  from {
+    width: 0;
+  }
 }
 
 @keyframes sp-rise {
@@ -134,7 +388,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sp-deal {
+  .sp-deal,
+  .sp-stock__row,
+  .sp-stock__bar span,
+  .sp-onboard__tasks li,
+  .sp-onboard__track span {
     animation: none;
   }
 }
@@ -191,8 +449,8 @@
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: var(--orbit-violet-100);
-  color: var(--orbit-violet);
+  background: var(--sp-accent-soft);
+  color: var(--sp-accent-ink);
 }
 
 .sp-keeps li > span:last-child {
@@ -222,10 +480,10 @@
   display: inline-block;
   padding: 0.25rem 0.7rem;
   border-radius: var(--r-pill);
-  background: var(--orbit-violet-100);
+  background: var(--sp-accent-soft);
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  color: var(--orbit-violet);
+  color: var(--sp-accent-ink);
 }
 
 /* --- Journey tabs ------------------------------------------------------- */
@@ -263,8 +521,8 @@
 }
 
 .sp-journey__tab.is-active {
-  border-color: var(--orbit-violet);
-  background: var(--orbit-violet-100);
+  border-color: var(--sp-accent);
+  background: var(--sp-accent-soft);
   color: var(--ink-900);
 }
 
@@ -281,7 +539,7 @@
 }
 
 .sp-journey__tab.is-active .sp-journey__num {
-  background: var(--orbit-violet);
+  background: var(--sp-accent);
   color: #fff;
 }
 
@@ -295,7 +553,7 @@
 
 .sp-journey__progress {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--n, 4), 1fr);
   gap: 0.4rem;
   margin-bottom: 1.5rem;
 }
@@ -308,7 +566,7 @@
 }
 
 .sp-journey__progress span.is-on {
-  background: var(--orbit-violet);
+  background: var(--sp-accent);
 }
 
 .sp-journey__panel h3 {
@@ -353,7 +611,8 @@
 /* --- Connected systems -------------------------------------------------- */
 .sp-connects {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  /* One column per connected system (set inline as --cols). */
+  grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr));
   gap: clamp(0.75rem, 1.5vw, 1rem);
 }
 
@@ -385,6 +644,27 @@
   color: var(--ink-500);
 }
 
+/* --- Ask in plain words (Analytics) ------------------------------------- */
+.sp-hero__visual--wide {
+  max-width: 1140px;
+}
+
+.sp-ask {
+  background: linear-gradient(180deg, #fff 0%, var(--sp-accent-soft) 100%);
+}
+
+.sp-ask__head {
+  max-width: 44rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.sp-ask__head p {
+  margin: 1rem auto 0;
+  line-height: var(--lh-body);
+  color: var(--ink-500);
+}
+
 /* --- Responsive --------------------------------------------------------- */
 @media (max-width: 1024px) {
   .sp-highlights {
@@ -404,7 +684,7 @@
 
   /* Tabs become a horizontal row above the panel. */
   .sp-journey__tabs {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
   }
 
   .sp-journey__tab {
@@ -422,6 +702,66 @@
 
   .sp-board__col:nth-child(n + 3) {
     display: none;
+  }
+
+  /* Stock table: drop the location column and bars. */
+  .sp-stock {
+    padding: 0.25rem 0.6rem 0.5rem;
+  }
+
+  .sp-stock__row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.6rem;
+  }
+
+  .sp-stock__where,
+  .sp-stock__bar {
+    display: none;
+  }
+
+  /* Onboarding card: person on top, checklist below. */
+  .sp-onboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sp-onboard__person {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.85rem;
+    row-gap: 0.1rem;
+    align-items: center;
+    padding: 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--ink-100);
+  }
+
+  .sp-onboard__avatar {
+    grid-row: span 2;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .sp-onboard__person small,
+  .sp-onboard__meter {
+    grid-column: 1 / -1;
+  }
+
+  .sp-onboard__person small {
+    justify-self: start;
+  }
+
+  .sp-onboard__meter {
+    padding-top: 0.75rem;
+  }
+
+  .sp-onboard__tasks {
+    padding: 0.25rem 1rem;
+  }
+
+  .sp-onboard__task b {
+    white-space: normal;
   }
 }
 

@@ -162,10 +162,10 @@ export const products = [
 /* The eight Bishnoi One systems, one per logo in public/. Drives the Products
    menu (desktop mega menu and mobile drawer). */
 export const systems = [
-  { id: 'inventory', name: 'Inventory', logo: '/Inventory.png', href: '#showcase-inventory', blurb: 'Stock, orders and fulfilment in one place' },
-  { id: 'people', name: 'People', logo: '/People.png', href: '#showcase-people', blurb: 'Employee records, onboarding and time off' },
+  { id: 'inventory', name: 'Inventory', logo: '/Inventory.png', href: '#/systems/inventory', blurb: 'Stock, orders and fulfilment in one place' },
+  { id: 'people', name: 'People', logo: '/People.png', href: '#/systems/people', blurb: 'Employee records, onboarding and time off' },
   { id: 'crm', name: 'CRM', logo: '/CRM.png', href: '#/systems/crm', blurb: 'Contacts, pipeline and revenue forecasting' },
-  { id: 'analytics', name: 'Analytics', logo: '/Analytics.png', href: '#showcase-analytics', blurb: 'Live dashboards and reports across every system' },
+  { id: 'analytics', name: 'Analytics', logo: '/Analytics.png', href: '#/systems/analytics', blurb: 'Live dashboards and reports across every system' },
   { id: 'books', name: 'Books', logo: '/Books.png', href: '#showcase-books', blurb: 'Invoices, bills and day-to-day bookkeeping' },
   { id: 'finance', name: 'Finance', logo: '/Finance.png', href: '#showcase-finance', blurb: 'Budgets, cash flow and financial planning' },
   { id: 'workdrive', name: 'WorkDrive', logo: '/WorkDrive.png', href: '#showcase-workdrive', blurb: 'Shared files, folders and document control' },
